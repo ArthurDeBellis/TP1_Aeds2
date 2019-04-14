@@ -11,7 +11,7 @@ char Letra(int posicao, char *Chave){ /* Retorna o i-esimo Letra da chave k a pa
     return 0;
   }
   else {
-     for (j = 1; j <= strlen(*Chave); j++){
+     for (j = 1; j <= strlen(Chave); j++){
        c = Chave[j-1];
      }
      return (c);
@@ -22,13 +22,13 @@ int ConfereNoExterno(Apontador arvore){
   return(arvore -> noArvore == Externo);
 }
 
-Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir){
+Apontador CriaNoInt(int index, char *letra, Apontador *esq, Apontador *dir){
   Apontador arvore;
   arvore = (Apontador)malloc(sizeof(NoPatricia));
   arvore -> No.NoInterno.Esq= *esq;
   arvore -> No.NoInterno.Dir= *dir;
   arvore -> No.NoInterno.posicao= index;
-  strcpy(&(arvore -> No.NoInterno.letra), &letra);
+  strcpy(&(arvore->No.NoInterno.letra), letra);
   return arvore;
 }
 
@@ -57,15 +57,15 @@ void Pesquisa(char *Chave, Apontador arvore){
 }
 Apontador InsereEntre(char *Chave, Apontador *arvore, int i){
   Apontador p;
-  if (EExterno(*arvore) || i < (*arvore)->No.NoInterno.posicao){ /* cria um novo no externo */
-    p = CriaNoExt(*Chave);
-  if (Letra(i, *Chave) == 1)
-    return (CriaNoInt(i, arvore, &p));
+  if (ConfereNoExterno(*arvore) || i < (*arvore)->No.NoInterno.posicao){ /* cria um novo no externo */
+    p = CriaNoExt(Chave);
+  if (Letra(i, Chave) == 1)
+    return (CriaNoInt(i, Chave, arvore, &p));
   else
-    return (CriaNoInt(i, &p, arvore));
+    return (CriaNoInt(i, Chave, &p, arvore));
   }
   else{
-    if (Letra((*arvore)->No.NoInterno.posicao, *Chave) == 1)
+    if (Letra((*arvore)->No.NoInterno.posicao, Chave) == 1)
       (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i);
   else
     (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i);
@@ -76,24 +76,33 @@ Apontador Insere(char *Chave, Apontador *arvore){
   Apontador p;
   int i;
   if (*arvore == NULL)
-    return (CriaNoExt(k));
+    return (CriaNoExt(Chave));
   else{
     p = *arvore;
     while (!ConfereNoExterno(p)){
-      if (Letra(p->No.NoInterno.posicao, k) == 1)
+      if (Letra(p->No.NoInterno.posicao, Chave) == 1)
         p = p->No.NoInterno.Dir;
       else
         p = p->No.NoInterno.Esq;
     }
 /* acha o primeiro Letra diferente */
   i = 1;
-  while ((i <= D) & (Letra((int)i, *Chave) == Letra((int)i, p->No.NoInterno.Chave))){
+  while ((i <= MenorPalavra(Chave, p->No.NoExterno.chave)) & (Letra((int)i, Chave) == Letra((int)i, p->No.NoExterno.chave))){
     i++;
   }
-  if (i > D){
+  if (i > MenorPalavra(Chave, p->No.NoExterno.chave)){
     printf("Erro: chave ja esta na arvore\n"); return (*arvore);
   }
   else
     return (InsereEntre(Chave, arvore, i));
   }
+}
+int MenorPalavra(char* palavra1, char* palavra2){
+  int i, j;
+  i = strlen(palavra1);
+  j = strlen(palavra2);
+  if(i>j)
+    return j;
+  else
+    return i;
 }

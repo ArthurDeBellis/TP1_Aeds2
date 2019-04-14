@@ -5,13 +5,15 @@ typedef enum{
   Interno, Externo
 }TipoNo;
 
-typedef struct IndReverso{
-  int qtde;
-  char* idDoc;
-  IndReverso* Prox;
-}IndReverso;
+typedef struct IndInverso *ApIndInverso;
 
 typedef struct NoPatricia *Apontador;
+
+typedef struct IndInverso{
+  int qtde;
+  char* idDoc;
+  ApIndInverso Prox;
+}IndInverso;
 
 typedef struct NoPatricia{
   TipoNo noArvore;
@@ -22,7 +24,7 @@ typedef struct NoPatricia{
       int posicao;
       Apontador Esq, Dir;
     }NoInterno;
-    IndReverso* Ind;
+    ApIndInverso Ind;
     struct{
       char *chave;
       /*struct da TST*/
@@ -33,9 +35,9 @@ typedef struct NoPatricia{
 //Funções
 char Letra(int posicao, char *Chave);
 int ConfereNoExterno(Apontador arvore);
-Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir);
+Apontador CriaNoInt(int index, char* letra, Apontador *esq, Apontador *dir);
 Apontador CriaNoExt(char *palavra);
 void Pesquisa(char *Chave, Apontador arvore);
 Apontador InsereEntre(char *Chave, Apontador *arvore, int i);
-
+int MenorPalavra(char* palavra1, char* palavra2);
 #endif
