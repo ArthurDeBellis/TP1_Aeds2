@@ -4,6 +4,20 @@
 #include "../Libs/TAD_Patricia.h"
 
 //A função verifica se o nó é externo
+char Letra(int posicao, char *Chave){ /* Retorna o i-esimo Letra da chave k a partir da esquerda */
+  int j;
+  char c;
+  if (posicao == 0){
+    return 0;
+  }
+  else {
+     for (j = 1; j <= strlen(*Chave); j++){
+       c = Chave[j-1];
+     }
+     return (c);
+   }
+}
+
 int ConfereNoExterno(Apontador arvore){
   return(arvore -> noArvore == Externo);
 }
@@ -40,4 +54,46 @@ void Pesquisa(char *Chave, Apontador arvore){
     Pesquisa(Chave, arvore->No.NoInterno.Esq);
   else
     Pesquisa(Chave, arvore->No.NoInterno.Dir);
+}
+Apontador InsereEntre(char *Chave, Apontador *arvore, int i){
+  Apontador p;
+  if (EExterno(*arvore) || i < (*arvore)->No.NoInterno.posicao){ /* cria um novo no externo */
+    p = CriaNoExt(*Chave);
+  if (Letra(i, *Chave) == 1)
+    return (CriaNoInt(i, arvore, &p));
+  else
+    return (CriaNoInt(i, &p, arvore));
+  }
+  else{
+    if (Letra((*arvore)->No.NoInterno.posicao, *Chave) == 1)
+      (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i);
+  else
+    (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i);
+  return (*arvore);
+  }
+}
+Apontador Insere(char *Chave, Apontador *arvore){
+  Apontador p;
+  int i;
+  if (*arvore == NULL)
+    return (CriaNoExt(k));
+  else{
+    p = *arvore;
+    while (!ConfereNoExterno(p)){
+      if (Letra(p->No.NoInterno.posicao, k) == 1)
+        p = p->No.NoInterno.Dir;
+      else
+        p = p->No.NoInterno.Esq;
+    }
+/* acha o primeiro Letra diferente */
+  i = 1;
+  while ((i <= D) & (Letra((int)i, *Chave) == Letra((int)i, p->No.NoInterno.Chave))){
+    i++;
+  }
+  if (i > D){
+    printf("Erro: chave ja esta na arvore\n"); return (*arvore);
+  }
+  else
+    return (InsereEntre(Chave, arvore, i));
+  }
 }
