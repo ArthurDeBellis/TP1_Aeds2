@@ -8,13 +8,13 @@ int ConfereNoExterno(Apontador arvore){
   return(arvore -> noArvore == Externo);
 }
 
-Apontador CriaNoInt(int index, char *letra, Apontador *esq, Apontador *dir){
+Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir){
   Apontador arvore;
   arvore = (Apontador)malloc(sizeof(NoPatricia));
   arvore -> No.NoInterno.Esq= *esq;
   arvore -> No.NoInterno.Dir= *dir;
   arvore -> No.NoInterno.posicao= index;
-  strcpy(arvore -> No.NoInterno.letra, letra);
+  strcpy(&(arvore -> No.NoInterno.letra), &letra);
   return arvore;
 }
 
@@ -33,6 +33,11 @@ void Pesquisa(char *Chave, Apontador arvore){
       printf("Elemento encontrado\n");
     else
       printf("Elemento não encontrado\n");
+    return;
   }
-  /*TODO: Comparação com no interno*/
+  //Desvios, se a posição e letra for menor vai para a esquerda, se não, vai para a direita
+  if(strlen(Chave) >= arvore->No.NoInterno.posicao && Chave[arvore->No.NoInterno.posicao] < (arvore)->No.NoInterno.letra)
+    Pesquisa(Chave, arvore->No.NoInterno.Esq);
+  else
+    Pesquisa(Chave, arvore->No.NoInterno.Dir);
 }

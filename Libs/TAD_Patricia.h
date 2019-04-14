@@ -12,7 +12,7 @@ typedef struct NoPatricia{
   /*union que contém as structs dos nós internos e externos*/
   union{
     struct{
-      char *letra;
+      char letra;
       int posicao;
       Apontador Esq, Dir;
     }NoInterno;
@@ -27,5 +27,7 @@ typedef struct NoPatricia{
 //Funções
 int ConfereNoExterno(Apontador arvore);
 Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir);
+Apontador CriaNoExt(char *palavra);
+void Pesquisa(char *Chave, Apontador arvore);
 
 #endif
