@@ -8,16 +8,17 @@ int main(){
   Insere("Carlos", &arvore);
   Pesquisa("Carlos", arvore);
 
-  Insere("Arthur", &arvore);
-  Pesquisa("Arthur", arvore);
-
-  Insere("Saulo", &arvore);
-  Pesquisa("Saulo", arvore);
-
-  Insere("Pablo", &arvore);
-  Pesquisa("Pablo", arvore);
-
-  Insere("Samuel", &arvore);
-  Pesquisa("Samuel", arvore);
+  //Insere("Carlos", &arvore);
+  //Pesquisa("Carlos", arvore);
+  printf("\n");
+  Insere("Carlosa", &arvore);
+  Pesquisa("Carlos", arvore);
+  printf("\n");
+  //Insere("Pablo", &arvore);
+  //Pesquisa("Pablo", arvore);
+  //printf("\n");
+  //Insere("Samuel", &arvore);
+  //Pesquisa("Samuel", arvore);
+  //printf("\n");
   return 0;
 }
