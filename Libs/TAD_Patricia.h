@@ -17,10 +17,8 @@ typedef struct NoPatricia{
       int posicao;
       Apontador Esq, Dir;
     }NoInterno;
-    struct{
       char chave[50];
       ApIndInverso Ind;
-    }NoExterno;
   }No;
 }NoPatricia;
 
