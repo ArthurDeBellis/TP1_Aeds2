@@ -5,73 +5,22 @@
 #include "../Libs/TAD_Patricia.h"
 
 
-/*char Letra(int posicao, char *Chave){
-  int j;
-  char c;
-  int tamChave = strlen(Chave);
-
-  if (posicao == 0){
-    return 0;
-  }
-  else {
-     for (j = 1; j <= tamChave; j++){
-       c = Chave[j-1];
-     }
-     return (c);
-   }
-*/
-
-int Letras(Apontador *arvore, char *palavra1, char *palavra2){
-  //printf("\n\nChave da arvore p dentro do Letras entre : %s\n", p -> No.chave);
-
-  int i = 0;
-  
-  //int tamPalavra = 0;
-  while(palavra1[i] != '\0' || palavra2[i] != '\0'){
-    //tamPalavra++;
-
-    if(palavra1[i] == '\0' || palavra2[i] == '\0'){
-      (*arvore)->No.NoInterno.posicao = i;
-      if(strcmp(&palavra1[i], &palavra2[i]) <= 0){
-        (*arvore)->No.NoInterno.letra = palavra2[i];
-        return 1;
-      }
-      else{
-        (*arvore)->No.NoInterno.letra = palavra1[i];
-        return 0;
-      (*arvore)->No.NoInterno.letra = palavra1[i];
-      }
-    }
-
-    if(palavra1[i] != palavra2[i]){
-      printf("Chave da arvore arvore dentro do Letras antes da no interno posicao : %s\n\n", (*arvore) -> No.chave);
-      printf("\n\nposicao : %d\n\n\n", (*arvore)->No.NoInterno.posicao);
-      printf("valor de i : %d\n", i);
-      (*arvore)->No.NoInterno.posicao = i;
-      printf("valor de i : %d\n", i);
-      printf("\n\nposicao : %d\n\n\n", (*arvore)->No.NoInterno.posicao);
-      printf("Chave da arvore arvore dentro do Letras depois da no interno posicao : %s\n\n", (*arvore) -> No.chave);
-      if(strcmp(&palavra1[i], &palavra2[i]) < 0){
-        (*arvore)->No.NoInterno.letra = palavra2[i];
-        return 1;
-      }
-      else{
-        (*arvore)->No.NoInterno.letra = palavra1[i];
-        return 0;
-      }
-    }
-    i++;
-  }
-  return 0;
+void InicializaPatricia(Apontador *arvore){
+  //Inicializa a árvore
+  *arvore = NULL;
 }
 
-
-//A função verifica se o nó é externo
-int ConfereNoExterno(Apontador arvore){
-  return(arvore -> noArvore == Externo);
+short ConfereNoExterno(Apontador arvore){
+  //Confere se o nó é externo
+  return (arvore -> noArvore == Externo);
 }
 
 Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir){
+  /*
+  Nessa função é criada uma árvore e ela é dada como retorno, é alocado um espaço de memória
+  e os campos da struct são preenchidos com o que foi passado de parâmetro, além da indicação
+  do noArvore como Interno
+  */
   Apontador arvore;
   arvore = (Apontador)malloc(sizeof(NoPatricia));
   arvore -> noArvore = Interno;
@@ -82,136 +31,107 @@ Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir){
   return arvore;
 }
 
-void CriaNoExt(char *palavra, Apontador *arvore){
-  *arvore = NULL;
-  *arvore = (Apontador)malloc(sizeof(NoPatricia));
-  (*arvore) -> noArvore = Externo;
-  //(*arvore) -> No.chave = (char*)malloc(sizeof(char));
-  strcpy((*arvore) -> No.chave, palavra);
-  printf("chave externa: %s\n", (*arvore) -> No.chave);
+Apontador CriaNoExt(char *palavra){
+  /*
+  Cria-se a arvore a ser retornada e nela preenche-se a palavra a ser inserida e indica-se
+  seu nó como externo
+  */
+  Apontador arvore;
+  arvore = (Apontador)malloc(sizeof(NoPatricia));
+  arvore->noArvore = Externo;
+  arvore->No.chave = (char*)malloc(sizeof(char));
+  strcpy(arvore->No.chave, palavra);
+  return arvore;
 }
 
 void Pesquisa(char *Chave, Apontador arvore){
-
+  //Variável para receber o tamanho da chave
   int tamChave = strlen(Chave);
-  if(ConfereNoExterno(arvore)){
-    printf("%s\n", Chave);
-    printf("%c\n", arvore -> No.NoInterno.letra);
-    printf("%d\n", arvore -> No.NoInterno.posicao);
-    //printf("Ta quase encontrando o erro\n");
-    printf("Chave atual : %s\n", arvore -> No.chave);
-    //Comparando no externo
-    if(strcmp(Chave, arvore->No.chave) == 0){
+
+  if (ConfereNoExterno(arvore)){
+    /*
+    Se o nó conferido for externo e igual à chave existente no nó externo, mostra-se na tela
+    que o elemento foi encontrado
+    */
+    if (strcmp(Chave, arvore->No.chave) == 0){
       printf("Elemento encontrado: %s\n", Chave);
     }
-    else
-      printf("Elemento não encontrado\n");
+    else{
+      printf("Elemento nao encontrado\n");
+    }
     return;
   }
-  //Desvios, se a posição e letra for menor vai para a esquerda, se não, vai para a direita
-
-  if(tamChave >= arvore->No.NoInterno.posicao && Chave[arvore->No.NoInterno.posicao] < (arvore)->No.NoInterno.letra)
+  /*
+  Se o nó não for externo, confere-se os campos 'posicao' e 'letra', para saber se a
+  busca deve prosseguir para a direita ou para esquerda do nó que está sendo olhado
+  */
+  if ((Chave[arvore->No.NoInterno.posicao] < (arvore)->No.NoInterno.letra) && (tamChave >= arvore->No.NoInterno.posicao)){
     Pesquisa(Chave, arvore->No.NoInterno.Esq);
-  else
-    Pesquisa(Chave, arvore->No.NoInterno.Dir);
-}
-Apontador InsereEntre(char *Chave, Apontador *arvore, int i){
-  //printf("OI\n");
-  Apontador p = NULL;
-  char aux[50];
-
-  //printf("OI função entre\n");
-  if (ConfereNoExterno(*arvore) || i < (*arvore)->No.NoInterno.posicao){
-
-    //printf("Quero morrer\n" );
-    printf("Chave dentro do insere: %s\n", Chave);
-    CriaNoExt(Chave, &p);
-
-    //if (Chave[i] < (*arvore)-> No.NoInterno.letra)
-
-  //  printf("Quero morrer 4\n" );
-    // (Apontador *arvore, char *palavra1, char *palavra2)
-    strcpy(aux, (*arvore) -> No.chave);
-
-    printf("chave : %s\n", (*arvore) -> No.chave);
-    printf("chave aux : %s\n", aux);
-
-    if (Letras(arvore, (*arvore)->No.chave, Chave) == 1){
-
-      //strcpy((*arvore) -> No.chave, aux);
-      printf("chave : %s\n", (*arvore) -> No.chave);
-      printf("chave aux 2: %s\n", aux);
-      //printf("Ziviane doente\n");
-      // (int index, char letra, Apontador *esq, Apontador *dir)
-      printf("%c\n", (*arvore) -> No.NoInterno.letra);
-      printf("%d\n", (*arvore) -> No.NoInterno.posicao);
-      return (CriaNoInt((*arvore) -> No.NoInterno.posicao, (*arvore) -> No.NoInterno.letra, arvore, &p));
-    }
-    else{
-      printf("\n\nChave da arvore p dentro do insere entre : %s\n", p -> No.chave);
-      printf("Chave da arvore arvore dentro do insere entre : %s\n\n", (*arvore) -> No.chave);
-      //printf("Ziviane doente 37\n");
-      return (CriaNoInt((*arvore) -> No.NoInterno.posicao, (*arvore) -> No.NoInterno.letra, &p, arvore));
-
-    }
   }
 
-  //else{
-    //printf("Entrou no else\n");
+  else{
+    Pesquisa(Chave, arvore->No.NoInterno.Dir);
+  }
+}
 
-    /*TODO -> Correção do else pela função letra
-    if (Letra((*arvore)->No.NoInterno.posicao, Chave) == 1)
+Apontador InsereEntre(char *Chave, Apontador *arvore, int i){
+  Apontador p = NULL;
+  if (ConfereNoExterno(*arvore) || i < (*arvore)->No.NoInterno.posicao){
+    /*
+    Se a árvore for formada por um nó externo ou então o index passado como
+    parâmetro for menor que o campo 'posicao', cria-se um nó externo na árvore
+    auxiliar e então confere, entre a Chave a ser inserida no index indicado e o
+    No já existente, qual letra é maior, para poder achar qual será a subárvore
+    a direita e a esquerda e sua maior letra
+    */
+    p = CriaNoExt(Chave);
+
+    if (Chave[i]<((*arvore)->No.chave[i]))
+      return (CriaNoInt(i,((*arvore)->No.chave[i]), &p, arvore));
+    else
+      return (CriaNoInt(i,Chave[i], arvore,  &p));
+  }
+  else{
+    /*
+    Se não, compara a letra da palavra a ser inserida com o campo 'letra' para
+    se descobrir o lado que se chama recursivamente o insere entre
+    */
+    if (Chave[(*arvore)->No.NoInterno.posicao] >= (*arvore)->No.NoInterno.letra)
       (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i);
     else
       (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i);
-    *///return (*arvore);
-
-  //}
-}
-void Insere(char *Chave, Apontador *arvore){
-  Apontador p;
-  int i = 0;
-
-  if (*arvore == NULL){
-    (CriaNoExt(Chave, arvore));
-    return;
+    //Ao final, retorna-se a árvore
+    return (*arvore);
   }
+}
+
+Apontador Insere(char *Chave, Apontador *arvore){
+  Apontador p;
+  int posicaoDiferente = 0;
+  int tamChave = strlen(Chave);
+  if (*arvore == NULL)
+    //Se não existir nenhum elemento, cria-se o primeiro elemento da árvore
+    return (CriaNoExt(Chave));
   else{
-    //printf("else\n");
+    //A árvore auxiliar 'p' recebe a árvore passada por parâmetro
     p = *arvore;
-    printf("%d\n", (*arvore) -> noArvore);
-
     while (!ConfereNoExterno(p)){
-      printf("OIIIIIIIIIIIIIIIIi\n");
-      if(Letras(&p, (p)->No.chave, Chave) == 1){
-        p = p->No.NoInterno.Dir;
-      }
-      else{
+      /*
+      Enquanto o nó conferido for interno, compara-se os campos 'letra' e 'posicao'
+      para saber se deve-se ir para a esquerda ou direita
+      */
+      if ((Chave[p->No.NoInterno.posicao] < (p)->No.NoInterno.letra) && (tamChave >= p->No.NoInterno.posicao))
         p = p->No.NoInterno.Esq;
-      }
-      i = 1;
-      //while ((i <= MenorPalavra(Chave, p->No.chave))){
-        //i++;
-      }
-      //if (i > MenorPalavra(Chave, p->No.chave) && Letras((int)i, Chave) == Letras((int)i, p->No.chave)){
-      //  printf("Erro: chave ja esta na arvore\n"); return;
-    //  }
-      }
-      printf("\nChave teste antes do insere entre : %s\n\n", (*arvore) -> No.chave);
-      InsereEntre(Chave, arvore, i);
-      printf("\nChave teste depois do insere entre : %s\n\n", (*arvore) -> No.chave);
-      printf("%c\n", (*arvore) -> No.NoInterno.letra);
-      printf("%d\n", (*arvore) -> No.NoInterno.posicao);
-      printf("encontrar erro\n");
+      else
+        p = p->No.NoInterno.Dir;
     }
-  //}
+    //O While a seguir confere em qual posição que a chave a ser inserida e a existente se diferem em relação a letra
+    while(posicaoDiferente < Chave[posicaoDiferente]){
+      if(Chave[posicaoDiferente] != p->No.chave[posicaoDiferente])
+        break;
+      posicaoDiferente++;
+    }
+    return (InsereEntre(Chave, arvore, posicaoDiferente));
+  }
+}
 
-/*int MenorPalavra(char* palavra1, char* palavra2){
-  int i, j;
-  i = strlen(palavra1);
-  j = strlen(palavra2);
-  if(i>j)
-    return j;
-  else
-    return i;
-}*/

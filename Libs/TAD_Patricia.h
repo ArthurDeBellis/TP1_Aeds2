@@ -17,19 +17,17 @@ typedef struct NoPatricia{
       int posicao;
       Apontador Esq, Dir;
     }NoInterno;
-      char chave[50];
-      ApIndInverso Ind;
+      char *chave;
   }No;
 }NoPatricia;
 
-//Funções
-//char Letra(int posicao, char *Chave);
-int ConfereNoExterno(Apontador arvore);
+//Funções implementadas
+void InicializaPatricia(Apontador *arvore);
+short ConfereNoExterno(Apontador arvore);
 Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir);
-void CriaNoExt(char *palavra, Apontador *arvore);
+Apontador CriaNoExt(char *palavra);
 void Pesquisa(char *Chave, Apontador arvore);
 Apontador InsereEntre(char *Chave, Apontador *arvore, int i);
-void Insere(char *Chave, Apontador *arvore);
-int MenorPalavra(char* palavra1, char* palavra2);
-int Letras(Apontador *arvore, char *palavra1, char *palavra2);
+Apontador Insere(char *Chave, Apontador *arvore);
+
 #endif
