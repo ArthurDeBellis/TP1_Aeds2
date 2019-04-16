@@ -4,25 +4,20 @@
 #include "../Libs/TAD_Patricia.h"
 
 int main(){
-  Apontador arvore = NULL;
-  Insere("Saulos", &arvore);
-  Pesquisa("Saulos", arvore);
+  Apontador arvore;
 
-  Insere("Carlos", &arvore);
-  Pesquisa("Carlos", arvore);
-  //printf("\n");
-  //Insere("Carlos", &arvore);
-  //Pesquisa("Saulos", arvore);
-  //printf("\n");
+  InicializaPatricia(&arvore);
 
-  //Insere("Pedros", &arvore);
-  //Pesquisa("Pedros", arvore);
-  //printf("\n");
-  //Insere("Pablo", &arvore);
-  //Pesquisa("Pablo", arvore);
-  //printf("\n");
-  //Insere("Samuel", &arvore);
-  //Pesquisa("Samuel", arvore);
-  //printf("\n");
+  arvore = Insere("Arthur", &arvore);
+  Pesquisa("Arthur", arvore);
+
+  arvore = Insere("Pablo", &arvore);
+  Pesquisa("Pablo", arvore);
+
+  arvore = Insere("Saulo", &arvore);
+  Pesquisa("Saulo", arvore);
+
+  arvore = Insere("Apatico", &arvore);
+  Pesquisa("Apatico", arvore);
   return 0;
 }
