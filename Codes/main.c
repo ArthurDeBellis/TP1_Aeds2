@@ -19,5 +19,7 @@ int main(){
 
   arvore = Insere("Apatico", &arvore);
   Pesquisa("Apatico", arvore);
+
+  arvore = Insere("Pablo", &arvore);
   return 0;
 }
