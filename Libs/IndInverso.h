@@ -18,10 +18,10 @@ typedef struct{
 void IniciaLista(TLista *pLista);
 int ListaVazia(TLista Lista);
 
-void InserirNovo(TLista *Lista, int qtde, int idDoc);
-void InserirUltimo(TLista *Lista, int qtde, int idDoc);
+void InserirNovo(TLista *Lista, int idDoc);
+//void InserirUltimo(TLista *Lista, int qtde, int idDoc);
 
-int RemoverLista(TLista *pLista, int Id);
+
 ApIndInverso ProcurarLista (TLista *pLista, int Id);
 
 void ImprimirLista(TLista Lista);
