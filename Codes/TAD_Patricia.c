@@ -131,7 +131,17 @@ Apontador Insere(char *Chave, Apontador *arvore){
         break;
       posicaoDiferente++;
     }
+
+    /*
+    Se a variável 'posição diferente' for maior ou igual ao tamanho
+    da chave, significa que os dois são iguais, ou seja, não deve ser
+    inserido
+    */
+    if (posicaoDiferente >= tamChave){
+      printf("Erro: chave ja esta na arvore\n");
+      return (*arvore);
+    }
+
     return (InsereEntre(Chave, arvore, posicaoDiferente));
   }
 }
-

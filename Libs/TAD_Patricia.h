@@ -18,7 +18,7 @@ typedef struct NoPatricia{
       Apontador Esq, Dir;
     }NoInterno;
       char *chave;
-      ApIndInverso Ind;
+      TLista lista;
   }No;
 }NoPatricia;
 
