@@ -19,16 +19,16 @@ typedef struct NoPatricia{
     }NoInterno;
       char *chave;
       TLista lista;
-  }No;
+    }No;
 }NoPatricia;
 
 //Funções implementadas
 void InicializaPatricia(Apontador *arvore);
 short ConfereNoExterno(Apontador arvore);
 Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir);
-Apontador CriaNoExt(char *palavra);
+Apontador CriaNoExt(char *palavra, int idDoc);
 void Pesquisa(char *Chave, Apontador arvore);
-Apontador InsereEntre(char *Chave, Apontador *arvore, int i);
-Apontador Insere(char *Chave, Apontador *arvore);
+Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc);
+Apontador Insere(char *Chave, Apontador *arvore, int idDoc);
 
 #endif

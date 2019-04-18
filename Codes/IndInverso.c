@@ -4,14 +4,20 @@
 #include <malloc.h>
 #include "../Libs/IndInverso.h"
 
-void IniciaLista(TLista *pLista){
+int IniciaLista(TLista *pLista){
+  ApIndInverso Celula = NULL;
   //Definindo os valor de pPrimeiro e pUltimo como nulos para iniciar a lista
-  pLista->pPrimeiro = NULL;
-  pLista->pUltimo = NULL;
+  Celula = (ApIndInverso)malloc(sizeof(TCelula));
+  Celula->qtde = 0;
+  Celula->idDoc = 0;
+  Celula->pProx = NULL;
+  pLista->pPrimeiro = Celula;
+  pLista->pUltimo = Celula;
+  return 1;
 }
 int ListaVazia(TLista Lista){
   //Se o ponteiro for nulo retorna 1
-  if(Lista.pPrimeiro == NULL){
+  if(Lista.pPrimeiro == Lista.pUltimo){
     return 1;
   }
   else{
@@ -27,41 +33,38 @@ void InserirNovo(TLista *Lista, int idDoc){
     Celula->qtde = 1;
     Celula->idDoc = idDoc;
     Celula->pProx = NULL;
-    Lista->pPrimeiro = Celula;
+    Lista->pUltimo->pProx = Celula;
     Lista->pUltimo = Celula;
     return;
   }
   else{
-    p = Lista->pPrimeiro;
-    while(p==NULL){//Percorrendo e conferindo se a palavra está inserida em algum texto
-      if(idDoc == p->idDoc){
-        p->qtde++;
-        i=1;
-      }
-      p = p->pProx;
+    p = Lista->pUltimo;
+    if(p->idDoc == idDoc){
+      p->qtde++;
     }
-    if(i==0){
-      /*se i=0, ou seja, se a palavra não está em nenhum documento já registrado, cria uma nova célula
-      para o documento atual e adiciona 1 à quantidade*/
+    else{
       Celula = (ApIndInverso)malloc(sizeof(TCelula));
-      Lista->pUltimo->pProx = Celula;
-      Lista->pUltimo = Celula;
       Celula->qtde = 1;
       Celula->idDoc = idDoc;
       Celula->pProx = NULL;
+      p->pProx = Celula;
+      Lista->pUltimo = Celula;
+      return;
     }
+
   }
 }
 
 void ImprimirLista(TLista Lista){
   ApIndInverso p = NULL;
+  p = Lista.pPrimeiro;
   if(ListaVazia(Lista))
     printf("Lista vazia!");
   else{
-    p = Lista.pPrimeiro;
-    while(p==NULL){//Percorrendo e conferindo se a palavra está inserida em algum texto
-      printf("idDoc = %d", p->idDoc);
-      printf("Quantidade = %d", p->qtde);
+    p = Lista.pPrimeiro->pProx;
+    while(p!=NULL){//Percorrendo e conferindo se a palavra está inserida em algum texto
+      printf("idDoc = %d\n", p->idDoc);
+      printf("Quantidade = %d\n", p->qtde);
       p = p->pProx;
     }
   }

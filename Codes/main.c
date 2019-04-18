@@ -54,19 +54,24 @@ int main(){
       }
     }
 
-  arvore = Insere("Arthur", &arvore);
+  arvore = Insere("Arthur", &arvore, 1);
   Pesquisa("Arthur", arvore);
 
-  arvore = Insere("Pablo", &arvore);
+  arvore = Insere("Pablo", &arvore, 1);
+  arvore = Insere("Pablo", &arvore, 1);
   Pesquisa("Pablo", arvore);
 
-  arvore = Insere("Saulo", &arvore);
+  arvore = Insere("Saulo", &arvore, 1);
   Pesquisa("Saulo", arvore);
 
-  arvore = Insere("Apatico", &arvore);
+  arvore = Insere("Apatico", &arvore, 1);
   Pesquisa("Apatico", arvore);
 
-  arvore = Insere("Pablo", &arvore);
+  arvore = Insere("Pablo", &arvore, 2);
+  Pesquisa("Pablo", arvore);
+
+
+
   return 0;
   }
 }

@@ -15,7 +15,7 @@ typedef struct{
 }TLista;
 
 //Funções
-void IniciaLista(TLista *pLista);
+int IniciaLista(TLista *pLista);
 int ListaVazia(TLista Lista);
 
 void InserirNovo(TLista *Lista, int idDoc);

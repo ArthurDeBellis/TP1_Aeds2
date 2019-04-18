@@ -31,15 +31,18 @@ Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir){
   return arvore;
 }
 
-Apontador CriaNoExt(char *palavra){
+Apontador CriaNoExt(char *palavra, int idDoc){
   /*
   Cria-se a arvore a ser retornada e nela preenche-se a palavra a ser inserida e indica-se
   seu nó como externo
   */
   Apontador arvore;
   arvore = (Apontador)malloc(sizeof(NoPatricia));
-  arvore->noArvore = Externo;
   arvore->No.chave = (char*)malloc(sizeof(char));
+  IniciaLista(&(arvore->No.lista));
+  InserirNovo(&(arvore->No.lista), idDoc);
+  arvore->noArvore = Externo;
+  //printf("Aqui foi\n" );
   strcpy(arvore->No.chave, palavra);
   return arvore;
 }
@@ -55,6 +58,7 @@ void Pesquisa(char *Chave, Apontador arvore){
     */
     if (strcmp(Chave, arvore->No.chave) == 0){
       printf("Elemento encontrado: %s\n", Chave);
+      ImprimirLista(arvore->No.lista);
     }
     else{
       printf("Elemento nao encontrado\n");
@@ -74,7 +78,7 @@ void Pesquisa(char *Chave, Apontador arvore){
   }
 }
 
-Apontador InsereEntre(char *Chave, Apontador *arvore, int i){
+Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc){
   Apontador p = NULL;
   if (ConfereNoExterno(*arvore) || i < (*arvore)->No.NoInterno.posicao){
     /*
@@ -84,7 +88,7 @@ Apontador InsereEntre(char *Chave, Apontador *arvore, int i){
     No já existente, qual letra é maior, para poder achar qual será a subárvore
     a direita e a esquerda e sua maior letra
     */
-    p = CriaNoExt(Chave);
+    p = CriaNoExt(Chave, idDoc);
 
     if (Chave[i]<((*arvore)->No.chave[i]))
       return (CriaNoInt(i,((*arvore)->No.chave[i]), &p, arvore));
@@ -97,21 +101,21 @@ Apontador InsereEntre(char *Chave, Apontador *arvore, int i){
     se descobrir o lado que se chama recursivamente o insere entre
     */
     if (Chave[(*arvore)->No.NoInterno.posicao] >= (*arvore)->No.NoInterno.letra)
-      (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i);
+      (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i, idDoc);
     else
-      (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i);
+      (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i, idDoc);
     //Ao final, retorna-se a árvore
     return (*arvore);
   }
 }
 
-Apontador Insere(char *Chave, Apontador *arvore){
+Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
   Apontador p;
   int posicaoDiferente = 0;
   int tamChave = strlen(Chave);
   if (*arvore == NULL)
     //Se não existir nenhum elemento, cria-se o primeiro elemento da árvore
-    return (CriaNoExt(Chave));
+    return (CriaNoExt(Chave, idDoc));
   else{
     //A árvore auxiliar 'p' recebe a árvore passada por parâmetro
     p = *arvore;
@@ -139,9 +143,10 @@ Apontador Insere(char *Chave, Apontador *arvore){
     */
     if (posicaoDiferente >= tamChave){
       printf("Erro: chave ja esta na arvore\n");
+      InserirNovo(&(p->No.lista), idDoc);
       return (*arvore);
     }
 
-    return (InsereEntre(Chave, arvore, posicaoDiferente));
+    return (InsereEntre(Chave, arvore, posicaoDiferente, idDoc));
   }
 }
