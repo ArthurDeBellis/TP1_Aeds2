@@ -38,6 +38,7 @@ void InserirNovo(TLista *Lista, int idDoc){
         p->qtde++;
         i=1;
       }
+      p = p->pProx;
     }
     if(i==0){
       /*se i=0, ou seja, se a palavra não está em nenhum documento já registrado, cria uma nova célula
@@ -48,6 +49,20 @@ void InserirNovo(TLista *Lista, int idDoc){
       Celula->qtde = 1;
       Celula->idDoc = idDoc;
       Celula->pProx = NULL;
+    }
+  }
+}
+
+void ImprimirLista(TLista Lista){
+  ApIndInverso p = NULL;
+  if(ListaVazia(Lista))
+    printf("Lista vazia!");
+  else{
+    p = Lista->pPrimeiro;
+    while(p==NULL){//Percorrendo e conferindo se a palavra está inserida em algum texto
+      printf("idDoc = %d", p->idDoc);
+      printf("Quantidade = %d", p->qtde);
+      p = p->pProx;
     }
   }
 }
