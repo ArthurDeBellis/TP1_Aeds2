@@ -58,7 +58,7 @@ void ImprimirLista(TLista Lista){
   if(ListaVazia(Lista))
     printf("Lista vazia!");
   else{
-    p = Lista->pPrimeiro;
+    p = Lista.pPrimeiro;
     while(p==NULL){//Percorrendo e conferindo se a palavra está inserida em algum texto
       printf("idDoc = %d", p->idDoc);
       printf("Quantidade = %d", p->qtde);
