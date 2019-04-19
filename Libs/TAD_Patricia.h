@@ -17,8 +17,10 @@ typedef struct NoPatricia{
       int posicao;
       Apontador Esq, Dir;
     }NoInterno;
+    struct{
       char *chave;
       TLista lista;
+    }NoExterno;
     }No;
 }NoPatricia;
 

@@ -39,11 +39,11 @@ int main(){
         }
         else {
           while(feof(arquivo) != 1){
-            fscanf(arquivo, "%s ", palavra);
+            fscanf(arquivo, "%s  ", palavra);
             aux = palavra;
             aux = ConverteMaiusculo(aux);
             aux = IgnoraPontuacao(aux);
-            printf("%s\n", palavra);
+            //printf("%s\n", palavra);
             //arvore = Insere(palavra, &arvore, i+1);
             //Pesquisa(palavra, arvore);
           }
@@ -107,8 +107,8 @@ int main(){
   Ni(arvore, 1, &ni);
   printf("%d palavras no documento 1\n", ni );
   ni = 0;
-  arvore = Insere("QUERO", &arvore, 1);
-  Pesquisa("QUERO", arvore);
+  arvore = Insere("TAMBEM", &arvore, 1);
+  Pesquisa("TAMBEM", arvore);
   Ni(arvore, 1, &ni);
   printf("%d palavras no documento 1\n", ni );
   ni = 0;
@@ -162,15 +162,33 @@ int main(){
   Ni(arvore, 1, &ni);
   printf("%d palavras no documento 1\n", ni );
   ni = 0;
-  arvore = Insere("PORTUGAL", &arvore, 1);
-  Pesquisa("PORTUGAL", arvore);
+  arvore = Insere("casado", &arvore, 1);
+  Pesquisa("casado", arvore);
   Ni(arvore, 1, &ni);
   printf("%d palavras no documento 1\n", ni );
   ni = 0;
-  arvore = Insere("PORTUGAL", &arvore, 1);
-  Pesquisa("PORTUGAL", arvore);
+  arvore = Insere("asdasd", &arvore, 1);
+  Pesquisa("asdasd", arvore);
   Ni(arvore, 1, &ni);
   printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("fqwasf", &arvore, 1);
+  Pesquisa("fqwasf", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("bavac", &arvore, 1);
+  Pesquisa("bavac", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+
+
+
+
+
+
+
 
 
 

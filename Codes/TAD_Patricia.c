@@ -38,13 +38,14 @@ Apontador CriaNoExt(char *palavra, int idDoc){
   */
   Apontador arvore;
   arvore = (Apontador)malloc(sizeof(NoPatricia));
-  arvore->No.chave = (char*)malloc(sizeof(char));
-  IniciaLista(&(arvore->No.lista));
+  arvore->No.NoExterno.chave = (char*)malloc(sizeof(char));
+  IniciaLista(&(arvore->No.NoExterno.lista));
   //printf("Aqui foi tbm\n" );
-  InserirNovo(&(arvore->No.lista), idDoc);
+  InserirNovo(&(arvore->No.NoExterno.lista), idDoc);
   arvore->noArvore = Externo;
   //printf("Aqui foi\n" );
-  strcpy(arvore->No.chave, palavra);
+  strcpy(arvore->No.NoExterno.chave, palavra);
+  //printf("%s\n", arvore -> No. NoExterno.chave);
   //printf("Aqui foi\n" );
   return arvore;
 }
@@ -58,9 +59,9 @@ void Pesquisa(char *Chave, Apontador arvore){
     Se o nó conferido for externo e igual à chave existente no nó externo, mostra-se na tela
     que o elemento foi encontrado
     */
-    if (strcmp(Chave, arvore->No.chave) == 0){
+    if (strcmp(Chave, arvore->No.NoExterno.chave) == 0){
       printf("Elemento encontrado: %s\n", Chave);
-      ImprimirLista(arvore->No.lista);
+      ImprimirLista(arvore->No.NoExterno.lista);
     }
     else{
       printf("Elemento nao encontrado\n");
@@ -92,8 +93,8 @@ Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc){
     */
     p = CriaNoExt(Chave, idDoc);
 
-    if (Chave[i]<((*arvore)->No.chave[i]))
-      return (CriaNoInt(i,((*arvore)->No.chave[i]), &p, arvore));
+    if (Chave[i]<((*arvore)->No.NoExterno.chave[i]))
+      return (CriaNoInt(i,((*arvore)->No.NoExterno.chave[i]), &p, arvore));
     else
       return (CriaNoInt(i,Chave[i], arvore,  &p));
   }
@@ -133,7 +134,7 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
     }
     //O While a seguir confere em qual posição que a chave a ser inserida e a existente se diferem em relação a letra
     while(posicaoDiferente < Chave[posicaoDiferente]){
-      if(Chave[posicaoDiferente] != p->No.chave[posicaoDiferente])
+      if(Chave[posicaoDiferente] != p->No.NoExterno.chave[posicaoDiferente])
         break;
       posicaoDiferente++;
     }
@@ -145,7 +146,7 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
     */
     if (posicaoDiferente >= tamChave){
       printf("Erro: chave ja esta na arvore\n");
-      InserirNovo(&(p->No.lista), idDoc);
+      InserirNovo(&(p->No.NoExterno.lista), idDoc);
       return (*arvore);
     }
 
@@ -156,7 +157,7 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
 void Ni(Apontador arvore, int arquivo, int* ni){
   ApIndInverso p = NULL;
   if(arvore->noArvore == Externo){
-    p = arvore->No.lista.pPrimeiro;
+    p = arvore->No.NoExterno.lista.pPrimeiro;
     while(p!=NULL){
       if(arquivo == p->idDoc){
         *ni= *ni+1;
