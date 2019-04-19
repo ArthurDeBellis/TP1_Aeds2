@@ -9,6 +9,7 @@
 
 char* ConverteMaiusculo(char *palavra);
 char* IgnoraPontuacao(char *palavra);
+int ni = 0;
 
 int main(){
   Apontador arvore;
@@ -54,32 +55,132 @@ int main(){
       }
     }
   //Quem casa quer casa. Porem ninguem casa. Ninguem quer casar tambem. Quer apartamento.
+  arvore = Insere("SALAMANDRA", &arvore, 1);
+  Pesquisa("SALAMANDRA", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
   arvore = Insere("QUEM", &arvore, 1);
   Pesquisa("QUEM", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  //NÃO TÁ INSERINDO PREFIXO APÓS A INSERÇÃO DE UMA PALAVRA COM ESSE MESMO PREFIXO, NEM INSERINDO
+  //PALAVRA COM MAIS DE 8 LETRAS
   arvore = Insere("CASA", &arvore, 1);
   Pesquisa("CASA", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
   arvore = Insere("QUER", &arvore, 1);
   Pesquisa("QUER", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
   arvore = Insere("CASA", &arvore, 1);
   Pesquisa("CASA", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
   arvore = Insere("POREM", &arvore, 1);
   Pesquisa("POREM", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
   arvore = Insere("NINGUEM", &arvore, 1);
   Pesquisa("NINGUEM", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("CASE", &arvore, 1);
+  Pesquisa("CASE", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("NINGUEM", &arvore, 1);
+  Pesquisa("NINGUEM", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("QUERIA", &arvore, 1);
+  Pesquisa("QUERIA", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("QUERO", &arvore, 1);
+  Pesquisa("QUERO", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
   arvore = Insere("CASA", &arvore, 1);
   Pesquisa("CASA", arvore);
-  arvore = Insere("NINGUEM", &arvore, 1);
-  Pesquisa("NINGUEM", arvore);
-  arvore = Insere("QUER", &arvore, 1);
-  Pesquisa("QUER", arvore);
-  arvore = Insere("CASAR", &arvore, 1);
-  Pesquisa("CASAR", arvore);
-  arvore = Insere("TAMBEM", &arvore, 1);
-  Pesquisa("TAMBEM", arvore);
-  arvore = Insere("QUER", &arvore, 1);
-  Pesquisa("QUER", arvore);
-  arvore = Insere("APARTAMENTO", &arvore, 1);
-  Pesquisa("APARTAMENTO", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("CASADO", &arvore, 1);
+  Pesquisa("CASADO", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("QUERIDA", &arvore, 1);
+  Pesquisa("QUERIDA", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("POTTER", &arvore, 1);
+  Pesquisa("POTTER", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("POTE", &arvore, 1);
+  Pesquisa("POTE", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("PORTEIRA", &arvore, 1);
+  Pesquisa("PORTEIRA", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("PORTA", &arvore, 1);
+  Pesquisa("PORTA", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("PORTAO", &arvore, 1);
+  Pesquisa("PORTAO", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("PORTO", &arvore, 1);
+  Pesquisa("PORTO", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("PORTUGAL", &arvore, 1);
+  Pesquisa("PORTUGAL", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("PORTUGAL", &arvore, 1);
+  Pesquisa("PORTUGAL", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+  ni = 0;
+  arvore = Insere("PORTUGAL", &arvore, 1);
+  Pesquisa("PORTUGAL", arvore);
+  Ni(arvore, 1, &ni);
+  printf("%d palavras no documento 1\n", ni );
+
+
+
+
+
+
+
+
+
+
 
 
   return 0;

@@ -41,6 +41,7 @@ void InserirNovo(TLista *Lista, int idDoc){
     p = Lista->pUltimo;
     if(p->idDoc == idDoc){
       p->qtde++;
+      return;
     }
     else{
       Celula = (ApIndInverso)malloc(sizeof(TCelula));

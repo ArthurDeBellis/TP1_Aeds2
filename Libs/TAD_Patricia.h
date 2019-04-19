@@ -30,5 +30,6 @@ Apontador CriaNoExt(char *palavra, int idDoc);
 void Pesquisa(char *Chave, Apontador arvore);
 Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc);
 Apontador Insere(char *Chave, Apontador *arvore, int idDoc);
+void Ni(Apontador arvore, int arquivo, int *ni);
 
 #endif

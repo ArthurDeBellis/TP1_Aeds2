@@ -22,7 +22,7 @@ void InserirNovo(TLista *Lista, int idDoc);
 //void InserirUltimo(TLista *Lista, int qtde, int idDoc);
 
 
-ApIndInverso ProcurarLista (TLista *pLista, int Id);
+//ApIndInverso ProcurarLista (TLista *pLista, int Id);
 
 void ImprimirLista(TLista Lista);
 

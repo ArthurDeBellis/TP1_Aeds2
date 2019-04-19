@@ -40,10 +40,12 @@ Apontador CriaNoExt(char *palavra, int idDoc){
   arvore = (Apontador)malloc(sizeof(NoPatricia));
   arvore->No.chave = (char*)malloc(sizeof(char));
   IniciaLista(&(arvore->No.lista));
+  //printf("Aqui foi tbm\n" );
   InserirNovo(&(arvore->No.lista), idDoc);
   arvore->noArvore = Externo;
   //printf("Aqui foi\n" );
   strcpy(arvore->No.chave, palavra);
+  //printf("Aqui foi\n" );
   return arvore;
 }
 
@@ -149,4 +151,22 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
 
     return (InsereEntre(Chave, arvore, posicaoDiferente, idDoc));
   }
+}
+
+void Ni(Apontador arvore, int arquivo, int* ni){
+  ApIndInverso p = NULL;
+  if(arvore->noArvore == Externo){
+    p = arvore->No.lista.pPrimeiro;
+    while(p!=NULL){
+      if(arquivo == p->idDoc){
+        *ni= *ni+1;
+      }
+      p = p->pProx;
+    }
+  }
+  else{
+    Ni(arvore->No.NoInterno.Esq, arquivo, ni);
+    Ni(arvore->No.NoInterno.Dir, arquivo, ni);
+  }
+  return;
 }
