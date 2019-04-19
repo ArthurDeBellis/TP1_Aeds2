@@ -12,8 +12,7 @@ char* IgnoraPontuacao(char *palavra);
 
 int main(){
   Apontador arvore;
-  int opcao, quantidade, tamChave;
-  int j;
+  int opcao, quantidade;
 
   InicializaPatricia(&arvore);
 
@@ -44,7 +43,8 @@ int main(){
             aux = ConverteMaiusculo(aux);
             aux = IgnoraPontuacao(aux);
             printf("%s\n", palavra);
-
+            //arvore = Insere(palavra, &arvore, i+1);
+            //Pesquisa(palavra, arvore);
           }
 
 
@@ -53,23 +53,33 @@ int main(){
         fclose(arquivo);
       }
     }
-
-  arvore = Insere("Arthur", &arvore, 1);
-  Pesquisa("Arthur", arvore);
-
-  arvore = Insere("Pablo", &arvore, 1);
-  arvore = Insere("Pablo", &arvore, 1);
-  Pesquisa("Pablo", arvore);
-
-  arvore = Insere("Saulo", &arvore, 1);
-  Pesquisa("Saulo", arvore);
-
-  arvore = Insere("Apatico", &arvore, 1);
-  Pesquisa("Apatico", arvore);
-
-  arvore = Insere("Pablo", &arvore, 2);
-  Pesquisa("Pablo", arvore);
-
+  //Quem casa quer casa. Porem ninguem casa. Ninguem quer casar tambem. Quer apartamento.
+  arvore = Insere("QUEM", &arvore, 1);
+  Pesquisa("QUEM", arvore);
+  arvore = Insere("CASA", &arvore, 1);
+  Pesquisa("CASA", arvore);
+  arvore = Insere("QUER", &arvore, 1);
+  Pesquisa("QUER", arvore);
+  arvore = Insere("CASA", &arvore, 1);
+  Pesquisa("CASA", arvore);
+  arvore = Insere("POREM", &arvore, 1);
+  Pesquisa("POREM", arvore);
+  arvore = Insere("NINGUEM", &arvore, 1);
+  Pesquisa("NINGUEM", arvore);
+  arvore = Insere("CASA", &arvore, 1);
+  Pesquisa("CASA", arvore);
+  arvore = Insere("NINGUEM", &arvore, 1);
+  Pesquisa("NINGUEM", arvore);
+  arvore = Insere("QUER", &arvore, 1);
+  Pesquisa("QUER", arvore);
+  arvore = Insere("CASAR", &arvore, 1);
+  Pesquisa("CASAR", arvore);
+  arvore = Insere("TAMBEM", &arvore, 1);
+  Pesquisa("TAMBEM", arvore);
+  arvore = Insere("QUER", &arvore, 1);
+  Pesquisa("QUER", arvore);
+  arvore = Insere("APARTAMENTO", &arvore, 1);
+  Pesquisa("APARTAMENTO", arvore);
 
 
   return 0;
@@ -105,7 +115,7 @@ char* IgnoraPontuacao(char *palavra){
   //transformando todos pontos, virgulas, exclamações e interrogações em 'espaço'
 	while(i<tamPalavra){
     if(palavra[i] >= 33 && palavra[i] <= 47 || palavra[i] >= 58 && palavra[i] <= 64){
-			palavra[i] = 32;
+			palavra[i] = '\0';
 		}
 		i++;
 	}
