@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -50,7 +51,7 @@ Apontador CriaNoExt(char *palavra, int idDoc){
   return arvore;
 }
 
-void Pesquisa(char *Chave, Apontador arvore){
+Apontador Pesquisa(char *Chave, Apontador arvore){
   //Variável para receber o tamanho da chave
   int tamChave = strlen(Chave);
 
@@ -60,13 +61,15 @@ void Pesquisa(char *Chave, Apontador arvore){
     que o elemento foi encontrado
     */
     if (strcmp(Chave, arvore->No.NoExterno.chave) == 0){
-      printf("Elemento encontrado: %s\n", Chave);
+
+      printf("\nElemento encontrado: %s\n", arvore->No.NoExterno.chave);
       ImprimirLista(arvore->No.NoExterno.lista);
+      return arvore;
     }
     else{
       printf("Elemento nao encontrado\n");
+      return NULL;
     }
-    return;
   }
   /*
   Se o nó não for externo, confere-se os campos 'posicao' e 'letra', para saber se a
@@ -170,4 +173,58 @@ void Ni(Apontador arvore, int arquivo, int* ni){
     Ni(arvore->No.NoInterno.Dir, arquivo, ni);
   }
   return;
+}
+
+int OcorrenciadeChaveemI(Apontador arvore, char *Chave, int i){
+  //Variável para receber o tamanho da chave
+  ApIndInverso p = NULL;
+  Apontador no = Pesquisa(Chave, arvore);
+
+
+  if(no!=NULL){
+    p = no->No.NoExterno.lista.pPrimeiro->pProx;
+    while(p!=NULL){
+      if(i==p->idDoc){
+        return p->qtde;
+      }
+      p = p->pProx;
+    }
+  }
+  else{
+    return 0;
+  }
+}
+
+int DocumentoscomChave(Apontador arvore, char* Chave){
+  ApIndInverso p = NULL;
+  Apontador no = Pesquisa(Chave, arvore);
+  int i = 0;
+
+  if(no!=NULL){
+    p = no->No.NoExterno.lista.pPrimeiro->pProx;
+    while(p!=NULL){
+      i++;
+      p = p->pProx;
+    }
+  }
+  return i;
+}
+
+float PesoTermo(float n, float d, float f){
+  float log2 = log10f(n)/log10(2);
+  printf("%f ocorrencias\n", f);
+
+    printf("%f log\n", log2);
+  return(f*(log2/d));
+
+}
+float Relevancia(float n, float d, float f, int q, int ni){
+    float r, somatorio = 0;
+    int j;
+
+    for (j=1; j <= q; j++) {
+      somatorio += PesoTermo(n, d, f);
+    }
+    r=(1/ni)*somatorio;
+    return r;
 }

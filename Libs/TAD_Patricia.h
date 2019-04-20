@@ -29,9 +29,12 @@ void InicializaPatricia(Apontador *arvore);
 short ConfereNoExterno(Apontador arvore);
 Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir);
 Apontador CriaNoExt(char *palavra, int idDoc);
-void Pesquisa(char *Chave, Apontador arvore);
+Apontador Pesquisa(char *Chave, Apontador arvore);
 Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc);
 Apontador Insere(char *Chave, Apontador *arvore, int idDoc);
 void Ni(Apontador arvore, int arquivo, int *ni);
-
+int OcorrenciadeChaveemI(Apontador arvore, char* Chave, int i);
+int DocumentoscomChave(Apontador arvore, char* Chave);
+float PesoTermo(float n, float d, float f);
+float Relevancia(float n, float d, float f);
 #endif
