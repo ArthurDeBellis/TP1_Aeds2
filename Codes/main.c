@@ -12,17 +12,18 @@ int ni = 0;
 int main(){
   Apontador arvore;
   int opcao, quantidade;
+  char nomeArquivo[100], palavra[100];
+  char *aux = NULL;
 
   InicializaPatricia(&arvore);
 
   menu_de_entradas();
-  printf("\nCaso queira ver os casos de teste, aperte 9\n");
+
   scanf("%d", &opcao);
+
   while(opcao != 0){
     if(opcao == 1){
       FILE *arquivo;
-      char nomeArquivo[100], palavra[100];
-      char *aux = NULL;
 
       printf("Digite a quantidade de arquivos a serem lidos: ");
       scanf("%d", &quantidade);
@@ -30,28 +31,32 @@ int main(){
       for(int i = 0; i < quantidade; i++){
         printf("Nome do Arquivo (com extensão .txt): ");
         scanf("%s", nomeArquivo);
-
+        printf("\n\n%s\n\n", nomeArquivo);
         arquivo = fopen(nomeArquivo, "r");
 
         if(!arquivo){
           printf("Fim da Leitura");
         }
+
         else {
           while(feof(arquivo) != 1){
             fscanf(arquivo, "%s  ", palavra);
-            aux = palavra;
+            aux =  palavra;
             aux = ConverteMaiusculo(aux);
             aux = IgnoraPontuacao(aux);
-            printf("%s\n", palavra);
-            //arvore = Insere(palavra, &arvore, i+1);
-            //Pesquisa(palavra, arvore);
+            //printf("%s\n", palavra);
+            //arvoreAux = arvore;
+            arvore = Insere(aux, &arvore, i+1);
+            Pesquisa(aux, arvore);
           }
         }
         fclose(arquivo);
       }
+      printf("\nQuer continuar?\n0 - Não\n1 - Sim\n");
+      scanf("%d", &opcao);
     }
   //Quem casa quer casa. Porem ninguem casa. Ninguem quer casar tambem. Quer apartamento.
-    if(opcao == 9){
+  /*  if(opcao == 9){
     //testes
     arvore = Insere("SALAMANDRA", &arvore, 1);
     Pesquisa("SALAMANDRA", arvore);
@@ -204,8 +209,8 @@ int main(){
     Ni(arvore, 1, &ni);
     printf("%d palavras no documento 1\n", ni );
     ni = 0;
-  }
+  }*/
 
-  return 0;
   }
+  return 0;
 }

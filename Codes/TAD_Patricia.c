@@ -148,7 +148,7 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
     inserido
     */
     if (posicaoDiferente >= tamChave){
-      printf("Erro: chave ja esta na arvore\n");
+      //printf("Erro: chave ja esta na arvore\n");
       InserirNovo(&(p->No.NoExterno.lista), idDoc);
       return (*arvore);
     }
