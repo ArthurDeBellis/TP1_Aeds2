@@ -36,5 +36,5 @@ void Ni(Apontador arvore, int arquivo, int *ni);
 int OcorrenciadeChaveemI(Apontador arvore, char* Chave, int i);
 int DocumentoscomChave(Apontador arvore, char* Chave);
 float PesoTermo(float n, float d, float f);
-float Relevancia(float n, float d, float f);
+float Relevancia(float n, float d, float f, int q, int ni);
 #endif
