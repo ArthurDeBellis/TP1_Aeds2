@@ -86,7 +86,7 @@ Apontador Pesquisa(char *Chave, Apontador arvore){
 
 Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc){
   Apontador p = NULL;
-  if (ConfereNoExterno(*arvore)){
+  if (ConfereNoExterno(*arvore) || i < (*arvore)->No.NoInterno.posicao){
     /*
     Se a árvore for formada por um nó externo ou então o index passado como
     parâmetro for menor que o campo 'posicao', cria-se um nó externo na árvore
@@ -102,7 +102,7 @@ Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc){
       return (CriaNoInt(i,Chave[i], arvore,  &p));
   }
   else{
-    if(i < (*arvore)->No.NoInterno.posicao){
+    /*if(i < (*arvore)->No.NoInterno.posicao){
       p = CriaNoExt(Chave, idDoc);
       if((*arvore)->No.NoInterno.letra>Chave[i])
         return (CriaNoInt(i,((*arvore)->No.NoExterno.chave[i]), arvore, &p));
@@ -131,7 +131,13 @@ Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc){
       }
 
     }
-
+*/
+    if (Chave[(*arvore)->No.NoInterno.posicao] >= (*arvore)->No.NoInterno.letra)
+      (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i, idDoc);
+    else
+      (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i, idDoc);
+      //Ao final, retorna-se a árvore
+    return (*arvore);
   }
 }
 
@@ -156,23 +162,29 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
         p = p->No.NoInterno.Dir;
     }
     //O While a seguir confere em qual posição que a chave a ser inserida e a existente se diferem em relação a letra
-    while(posicaoDiferente < Chave[posicaoDiferente]){
+    for (posicaoDiferente = 0; Chave[posicaoDiferente]; posicaoDiferente++){
       if(Chave[posicaoDiferente] != p->No.NoExterno.chave[posicaoDiferente])
         break;
-      posicaoDiferente++;
     }
+    /*while(posicaoDiferente < Chave[posicaoDiferente]){
+      if(Chave[posicaoDiferente] != p->No.NoExterno.chave[posicaoDiferente]){
+        break;
+      }
+      posicaoDiferente++;
+    }*/
 
     /*
     Se a variável 'posição diferente' for maior ou igual ao tamanho
     da chave, significa que os dois são iguais, ou seja, não deve ser
     inserido
     */
-    if (posicaoDiferente >= tamChave){
-      //printf("Erro: chave ja esta na arvore\n");
+    if (strcmp(Chave, p->No.NoExterno.chave) == 0){
+      printf("Erro: chave ja esta na arvore\n");
       InserirNovo(&(p->No.NoExterno.lista), idDoc);
+      printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
       return (*arvore);
     }
-
+    printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
     return (InsereEntre(Chave, arvore, posicaoDiferente, idDoc));
   }
 }

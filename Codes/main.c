@@ -44,10 +44,13 @@ int main(){
             aux =  palavra;
             aux = ConverteMaiusculo(aux);
             aux = IgnoraPontuacao(aux);
-            //printf("%s\n", palavra);
+            printf("%s\n", palavra);
             //arvoreAux = arvore;
             arvore = Insere(aux, &arvore, i+1);
             Pesquisa(aux, arvore);
+            Ni(arvore, 1, &ni);
+            printf("%d palavras no documento 1\n", ni );
+            ni = 0;
           }
         }
         fclose(arquivo);
@@ -56,7 +59,7 @@ int main(){
       scanf("%d", &opcao);
     }
   //Quem casa quer casa. Porem ninguem casa. Ninguem quer casar tambem. Quer apartamento.
-  /*  if(opcao == 9){
+  /* if(opcao == 9){
     //testes
     arvore = Insere("SALAMANDRA", &arvore, 1);
     Pesquisa("SALAMANDRA", arvore);
