@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <malloc.h>
 #include "tst.h"
 
 NoTST* CriarNoTST (char letra, ntipo t)
@@ -37,7 +41,7 @@ NoTST* InserirNoTST (const char* palavra, NoTST* NoTST)
   return NoTST;
 }
 
-NoTST* BuscarNoTST(NoTST* arvore, const char* palavra)
+NoTST* BuscarNoTST(NoTST *arvore, const char* palavra)
 {
   long unsigned int i = 0;
   NoTST* NoTST = arvore;
@@ -46,48 +50,36 @@ NoTST* BuscarNoTST(NoTST* arvore, const char* palavra)
 	  if(NULL  == NoTST)
 		  break;
 	  if(palavra[i] < NoTST->letra)
-		  NoTST = NoTST->Esq;
-	  else if(palavra[i] > NoTST->letra)
-		  NoTST = NoTST->Dir;
+		  NoTST = (NoTST)->Esq;
+	  else if(palavra[i] > (NoTST)->letra)
+		  NoTST = (NoTST)->Dir;
 	  else {
-		  if(i++ == strlen(palavra) - 1  && NoTST->Fim == SIM)
+		  if(i++ == strlen(palavra)-1)
 		      return NoTST;
 		  else
-		  NoTST = NoTST->Meio;
+		  NoTST = (NoTST)->Meio;
 	  }
   }
 
   return NULL;
 }
 
-void BuscaProfunda(const char* prefixo, NoTST* inicio){
-
-	if(inicio->Fim != NAO)
-		printf("ENCONTRADO:%s%c\n",prefixo,inicio->letra);
-
-	if(inicio->Esq != NULL)
-		BuscaProfunda(prefixo, inicio->Esq);
-
-	if(inicio->Dir != NULL)
-		BuscaProfunda(prefixo, inicio->Dir);
-
-	if(inicio->Meio != NULL) {
-		char *prefixo = NULL;
-    prefixo = (char *)malloc(strlen(prefixo) + 2);
-		sprintf(prefixo,"%s%c",prefixo,inicio->letra);
-		BuscaProfunda(prefixo,inicio->Meio);
-	}
+int OrdemAux(NoTST *arvore, char *recebePalavra, int i){
+  if(arvore != NULL){
+    OrdemAux(arvore->Esq, recebePalavra, i);
+    recebePalavra[i] = arvore->letra;
+    if(arvore->Fim){
+      recebePalavra[i+1]= '\0';
+      printf("%s\n", recebePalavra);
+    }
+    OrdemAux(arvore->Meio, recebePalavra, i+1);
+    OrdemAux(arvore->Dir,recebePalavra, i);
+    return 1;
+  }
+  return 0;
 }
 
-void ImprimirMesmoPrefixo(NoTST* arvore, const char* prefixo)
-{
-  NoTST *noAux = arvore;
-	noAux = BuscarNoTST(noAux, prefixo);
-
-	if(noAux == NULL)
-		printf("Sem paçavras com o prefixo %s\n",prefixo);
-	else {
-		BuscaProfunda(prefixo,noAux->Meio);
-	}
+void Ordem(NoTST *arvore){
+  char recebePalavra[100];
+  OrdemAux(arvore, recebePalavra,0);
 }
-
