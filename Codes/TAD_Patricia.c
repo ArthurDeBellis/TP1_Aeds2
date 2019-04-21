@@ -84,61 +84,35 @@ Apontador Pesquisa(char *Chave, Apontador arvore){
   }
 }
 
-Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc){
-  Apontador p = NULL;
-  if (ConfereNoExterno(*arvore) || i < (*arvore)->No.NoInterno.posicao){
-    /*
-    Se a árvore for formada por um nó externo ou então o index passado como
-    parâmetro for menor que o campo 'posicao', cria-se um nó externo na árvore
-    auxiliar e então confere, entre a Chave a ser inserida no index indicado e o
-    No já existente, qual letra é maior, para poder achar qual será a subárvore
-    a direita e a esquerda e sua maior letra
-    */
+Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc)
+{ Apontador p;
+  if (ConfereNoExterno(*arvore))
+  { /* cria um novo no externo */
     p = CriaNoExt(Chave, idDoc);
-
-    if (Chave[i]<((*arvore)->No.NoExterno.chave[i]))
-      return (CriaNoInt(i,((*arvore)->No.NoExterno.chave[i]), &p, arvore));
-    else
-      return (CriaNoInt(i,Chave[i], arvore,  &p));
+    if (Chave[i]<(*arvore)->No.NoExterno.chave[i])
+    return (CriaNoInt(i, Chave[i], &p, arvore) );
+    else return (CriaNoInt(i, Chave[i], arvore, &p));
   }
   else{
-    /*if(i < (*arvore)->No.NoInterno.posicao){
+    if (i < (*arvore)->No.NoInterno.posicao) {
       p = CriaNoExt(Chave, idDoc);
-      if((*arvore)->No.NoInterno.letra>Chave[i])
-        return (CriaNoInt(i,((*arvore)->No.NoExterno.chave[i]), arvore, &p));
-      else
-        return (CriaNoInt(i,Chave[i], &p, arvore));
+      if(Chave[(*arvore)->No.NoInterno.posicao]<(*arvore)->No.NoInterno.letra)
+      return (CriaNoInt(i, Chave[i], &p, arvore));
+      else return (CriaNoInt(i, Chave[i], arvore, &p));
     }
-    else{
-      if(i == (*arvore)->No.NoInterno.posicao){
-        p = CriaNoExt(Chave, idDoc);
-        if(Chave[i] > (*arvore)->No.NoInterno.letra){
-          return (CriaNoInt(i,Chave[i], arvore,  &p));
-        }
-        else{
-          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i, idDoc);
-          return(*arvore);
-        }
-      }
-      else{
-        if (Chave[i] >= (*arvore)->No.NoInterno.letra)
-          (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i, idDoc);
-        else
-          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i, idDoc);
-        //Ao final, retorna-se a árvore
-        return (*arvore);
-
-      }
-
-    }
-*/
-    if (Chave[(*arvore)->No.NoInterno.posicao] >= (*arvore)->No.NoInterno.letra)
-      (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i, idDoc);
     else
-      (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i, idDoc);
-      //Ao final, retorna-se a árvore
-    return (*arvore);
+    { if ((*arvore)->No.NoInterno.posicao==i){
+        if((*arvore)->No.NoInterno.letra < Chave[i])
+          //return (CriaNoInt(i, Chave[i], arvore, &p));
+          (*arvore)->No.NoInterno.Dir = InsereEntre(Chave, &(*arvore)->No.NoInterno.Dir,i, idDoc);
+        else{
+          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave, &(*arvore)->No.NoInterno.Esq,i, idDoc);
+          //return (CriaNoInt(i, Chave[i], &p, arvore));
+        }
+    }
   }
+  }
+  return (*arvore);
 }
 
 Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
@@ -181,10 +155,10 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
     if (strcmp(Chave, p->No.NoExterno.chave) == 0){
       printf("Erro: chave ja esta na arvore\n");
       InserirNovo(&(p->No.NoExterno.lista), idDoc);
-      printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
+      //printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
       return (*arvore);
     }
-    printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
+  //  printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
     return (InsereEntre(Chave, arvore, posicaoDiferente, idDoc));
   }
 }
@@ -193,6 +167,7 @@ void Ni(Apontador arvore, int arquivo, int* ni){
   ApIndInverso p = NULL;
   if(arvore->noArvore == Externo){
     p = arvore->No.NoExterno.lista.pPrimeiro;
+    printf("%s\n", arvore->No.NoExterno.chave);
     while(p!=NULL){
       if(arquivo == p->idDoc){
         *ni= *ni+1;
