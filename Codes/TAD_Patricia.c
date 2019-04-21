@@ -63,7 +63,7 @@ Apontador Pesquisa(char *Chave, Apontador arvore){
     if (strcmp(Chave, arvore->No.NoExterno.chave) == 0){
 
       printf("\nElemento encontrado: %s\n", arvore->No.NoExterno.chave);
-      ImprimirLista(arvore->No.NoExterno.lista);
+      //ImprimirLista(arvore->No.NoExterno.lista);
       return arvore;
     }
     else{
@@ -86,7 +86,7 @@ Apontador Pesquisa(char *Chave, Apontador arvore){
 
 Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc){
   Apontador p = NULL;
-  if (ConfereNoExterno(*arvore) || i < (*arvore)->No.NoInterno.posicao){
+  if (ConfereNoExterno(*arvore)){
     /*
     Se a árvore for formada por um nó externo ou então o index passado como
     parâmetro for menor que o campo 'posicao', cria-se um nó externo na árvore
@@ -102,16 +102,36 @@ Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc){
       return (CriaNoInt(i,Chave[i], arvore,  &p));
   }
   else{
-    /*
-    Se não, compara a letra da palavra a ser inserida com o campo 'letra' para
-    se descobrir o lado que se chama recursivamente o insere entre
-    */
-    if (Chave[(*arvore)->No.NoInterno.posicao] >= (*arvore)->No.NoInterno.letra)
-      (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i, idDoc);
-    else
-      (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i, idDoc);
-    //Ao final, retorna-se a árvore
-    return (*arvore);
+    if(i < (*arvore)->No.NoInterno.posicao){
+      p = CriaNoExt(Chave, idDoc);
+      if((*arvore)->No.NoInterno.letra>Chave[i])
+        return (CriaNoInt(i,((*arvore)->No.NoExterno.chave[i]), arvore, &p));
+      else
+        return (CriaNoInt(i,Chave[i], &p, arvore));
+    }
+    else{
+      if(i == (*arvore)->No.NoInterno.posicao){
+        p = CriaNoExt(Chave, idDoc);
+        if(Chave[i] > (*arvore)->No.NoInterno.letra){
+          return (CriaNoInt(i,Chave[i], arvore,  &p));
+        }
+        else{
+          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i, idDoc);
+          return(*arvore);
+        }
+      }
+      else{
+        if (Chave[i] >= (*arvore)->No.NoInterno.letra)
+          (*arvore)->No.NoInterno.Dir = InsereEntre(Chave,&(*arvore)->No.NoInterno.Dir,i, idDoc);
+        else
+          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave,&(*arvore)->No.NoInterno.Esq,i, idDoc);
+        //Ao final, retorna-se a árvore
+        return (*arvore);
+
+      }
+
+    }
+
   }
 }
 
