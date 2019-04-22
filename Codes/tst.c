@@ -41,7 +41,7 @@ NoTST* InserirNoTST (const char* palavra, NoTST* NoTST)
   return NoTST;
 }
 
-NoTST* BuscarNoTST(NoTST *arvore, const char* palavra)
+int BuscarNoTST(NoTST *arvore, const char* palavra)
 {
   long unsigned int i = 0;
   NoTST* NoTST = arvore;
@@ -54,32 +54,58 @@ NoTST* BuscarNoTST(NoTST *arvore, const char* palavra)
 	  else if(palavra[i] > (NoTST)->letra)
 		  NoTST = (NoTST)->Dir;
 	  else {
-		  if(i++ == strlen(palavra)-1)
-		      return NoTST;
+		  if(i++ == strlen(palavra)-1 && NoTST->Fim == SIM){
+          return 1;
+      }
 		  else
 		  NoTST = (NoTST)->Meio;
 	  }
   }
 
-  return NULL;
+  return 0;
 }
 
-int OrdemAux(NoTST *arvore, char *recebePalavra, int i){
+int OrdemAux(NoTST *arvore, char *recebePalavra, int i, char* pref){
   if(arvore != NULL){
-    OrdemAux(arvore->Esq, recebePalavra, i);
+    OrdemAux(arvore->Esq, recebePalavra, i, pref);
     recebePalavra[i] = arvore->letra;
     if(arvore->Fim){
-      recebePalavra[i+1]= '\0';
-      printf("%s\n", recebePalavra);
+      recebePalavra[i+1] = '\0';
+      printf("%s%s\n", pref, recebePalavra);
     }
-    OrdemAux(arvore->Meio, recebePalavra, i+1);
-    OrdemAux(arvore->Dir,recebePalavra, i);
+    OrdemAux(arvore->Meio, recebePalavra, i+1, pref);
+    OrdemAux(arvore->Dir,recebePalavra, i, pref);
     return 1;
   }
   return 0;
 }
 
-void Ordem(NoTST *arvore){
-  char recebePalavra[100];
-  OrdemAux(arvore, recebePalavra,0);
+void Ordem(NoTST *arvore, char* pref){
+  char *recebePalavra = NULL;
+  recebePalavra = (char*)malloc(sizeof(char));
+  OrdemAux(arvore, recebePalavra,0, pref);
+}
+
+void AutoComplete(NoTST *arvore, char *pref, char* aux){
+  if(arvore == NULL){
+    return;
+  }
+  
+  if(strcmp(pref, &arvore->letra)<0){
+    AutoComplete(arvore->Esq, pref, aux);
+    return;
+  }
+  else{ 
+    if(strcmp(pref, &arvore->letra)>0){
+      AutoComplete(arvore->Dir, pref, aux);
+      return;
+    }
+    else{
+      if(*(pref+1) == '\0'){
+        Ordem(arvore->Meio, aux);
+      }
+      AutoComplete(arvore->Meio, pref+1, aux);
+      return;
+    }
+  }
 }

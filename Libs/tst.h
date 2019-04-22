@@ -17,8 +17,9 @@ NoTST* RAIZ;
 
 NoTST* CriarNoTST(char letra, ntipo t);
 NoTST* InserirNoTST(const char* palavra, NoTST* No);
-NoTST* BuscarNoTST(NoTST *arvore, const char* palavra);
-int OrdemAux(NoTST *arvore, char *recebePalavra, int i);
-void Ordem(NoTST *arvore);
+int BuscarNoTST(NoTST *arvore, const char* palavra);
+int OrdemAux(NoTST *arvore, char *recebePalavra, int i, char* pref);
+void Ordem(NoTST *arvore, char* pref);
+void AutoComplete(NoTST *arvore, char *pref, char* aux);
 
 #endif
