@@ -14,6 +14,7 @@ int ni = 0;
 int main(){
   Apontador arvore;
   TipoPilha pilha;
+  FPVazia(&pilha);
   LRelevancia relevancia;
   NoTST* head = NULL;
   InicializaPatricia(&arvore);
@@ -25,7 +26,7 @@ int main(){
   int quantidadePalavras;
   char *palavraPesquisa;
   char *prefixo;
-  char nomeArquivo[100], palavra[100], palavraBusca[100];;
+  char nomeArquivo[100], nomeArquivoBusca[100], palavra[100], palavraBusca[100];;
   char *aux = NULL;
   char *auxBusca = NULL;
   palavraPesquisa = (char*)malloc(sizeof(char));
@@ -73,18 +74,21 @@ int main(){
     if(opcao == 2){
 
       FILE *arquivo2;
-      arquivo2 = fopen(nomeArquivo, "r");
+      printf("Nome do Arquivo de Busca (com extensão .txt): ");
+      scanf("%s", nomeArquivoBusca);
+      arquivo2 = fopen(nomeArquivoBusca, "r");
 
       if(!arquivo2){
         printf("Fim da Leitura");
       }
       while(feof(arquivo2) != 1){
-        
+
         fscanf(arquivo2, "%s ", palavraBusca);
         auxBusca = palavraBusca;
         auxBusca = ConverteMaiusculo(auxBusca);
         auxBusca = IgnoraPontuacao(auxBusca);
-        Empilha(palavra, &pilha);
+        Empilha(auxBusca, &pilha);
+        
         contBusca = Tamanho(pilha);
 
       }

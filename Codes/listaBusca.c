@@ -22,6 +22,7 @@ void Empilha(char *chave, TipoPilha *Pilha)
   ApontadorPilha Aux;
   Aux = (ApontadorPilha) malloc(sizeof(TCelulaPilha));
   Pilha->pTopo->chaveBusca = (char*)malloc(sizeof(char));
+  //printf("Oii\n");
   strcpy(Pilha->pTopo->chaveBusca, chave);
   Aux->pProx = Pilha->pTopo;
   Pilha->pTopo = Aux;
