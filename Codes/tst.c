@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
-#include "tst.h"
+#include "../Libs/tst.h"
 
 NoTST* CriarNoTST (char letra, ntipo t)
 {
@@ -90,13 +90,13 @@ void AutoComplete(NoTST *arvore, char *pref, char* aux){
   if(arvore == NULL){
     return;
   }
-  
-  if(strcmp(pref, &arvore->letra)<0){
+
+  if(*pref < arvore->letra){
     AutoComplete(arvore->Esq, pref, aux);
     return;
   }
-  else{ 
-    if(strcmp(pref, &arvore->letra)>0){
+  else{
+    if(*pref > arvore->letra){
       AutoComplete(arvore->Dir, pref, aux);
       return;
     }
