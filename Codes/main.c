@@ -7,22 +7,30 @@
 #include "../Libs/tst.h"
 #include "../Libs/menu.h"
 #include "../Libs/ConversaoPalavras.h"
+#include "../Libs/listaBusca.h"
+
 int ni = 0;
 
 int main(){
   Apontador arvore;
+  TipoPilha pilha;
+  LRelevancia relevancia;
+  NoTST* head = NULL;
+  InicializaPatricia(&arvore);
+  IniciaListaRelevancia(&relevancia);
+
   int opcao;
+  int contBusca;
   int quantidadeTextos;
   int quantidadePalavras;
   char *palavraPesquisa;
   char *prefixo;
-  char nomeArquivo[100], palavra[100];
+  char nomeArquivo[100], palavra[100], palavraBusca[100];;
   char *aux = NULL;
+  char *auxBusca = NULL;
   palavraPesquisa = (char*)malloc(sizeof(char));
   prefixo = (char*)malloc(sizeof(char));
 
-  InicializaPatricia(&arvore);
-  NoTST* head = NULL;
 
   menu_de_entradas();
 
@@ -47,7 +55,7 @@ int main(){
 
         else {
           while(feof(arquivo) != 1){
-            fscanf(arquivo, "%s  ", palavra);
+            fscanf(arquivo, "%s ", palavra);
             aux =  palavra;
             aux = ConverteMaiusculo(aux);
             aux = IgnoraPontuacao(aux);
@@ -63,15 +71,30 @@ int main(){
       scanf("%d", &opcao);
     }
     if(opcao == 2){
-      //Pesquisa(aux, arvore);
-      printf("Quantidade de arquivos: %d\n", quantidadeTextos);
-      printf("Digite a quantidade de palavras a serem pesquisadas: \n");
-      scanf("%d", &quantidadePalavras);
 
-      for(int i = 0; i < quantidadePalavras; i++){
-        printf("Digite a palavra: \n");
-        scanf("%s", palavraPesquisa);
+      FILE *arquivo2;
+      arquivo2 = fopen(nomeArquivo, "r");
+
+      if(!arquivo2){
+        printf("Fim da Leitura");
       }
+      while(feof(arquivo2) != 1){
+        
+        fscanf(arquivo2, "%s ", palavraBusca);
+        auxBusca = palavraBusca;
+        auxBusca = ConverteMaiusculo(auxBusca);
+        auxBusca = IgnoraPontuacao(auxBusca);
+        Empilha(palavra, &pilha);
+        contBusca = Tamanho(pilha);
+
+      }
+      fclose(arquivo2);
+      for(int i = 0; i < contBusca; i++){
+        Desempilha(&pilha, auxBusca);
+        RelevanciaFinal(arvore, contBusca, auxBusca, i, quantidadeTextos, &relevancia);
+        printf("Desimpilhou: %s\n", auxBusca);
+      }
+      ImprimirListaRelevancia(relevancia);
       menu_de_entradas();
       scanf("%d", &opcao);
     }

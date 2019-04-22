@@ -257,8 +257,6 @@ int IniciaListaRelevancia(LRelevancia *pLista){
   //Definindo os valor de pPrimeiro e pUltimo como nulos para iniciar a lista
   Celula = (ApRel)malloc(sizeof(CelRelevancia));
   Celula->relevancia = 0;
-  Celula->idDoc = 0;
-  Celula->nome = "NULO";
   Celula->pProx = NULL;
   pLista->pPrimeiro = Celula;
   pLista->pUltimo = Celula;
@@ -277,7 +275,7 @@ int ListaRelevanciaVazia(LRelevancia Lista){
 void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome){
   ApRel Celula = NULL, p = NULL;
   int i = 0; //contador
-  if(ListaVazia(*Lista)){
+  if(Lista->pPrimeiro==Lista->pUltimo){
     //Conferindo se a lista é vazia, se sim, define todos os valores
     Celula = (ApRel)malloc(sizeof(CelRelevancia));
     Celula->relevancia = relevancia;
@@ -289,8 +287,8 @@ void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome){
   }
   else{
     p = Lista->pPrimeiro;
-    if(Lista->pUltimo->relevancia]>relevancia){
-      p = Lista->pUltimo
+    if(Lista->pUltimo->relevancia>relevancia){
+      p = Lista->pUltimo;
     }
     else{
       while(relevancia<p->pProx->relevancia){
@@ -309,29 +307,29 @@ void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome){
     return;
     }
 
-  }
+
 }
 
 void RelevanciaFinal(Apontador arvore, int q, char *Chave, int idDoc, float nArquivos, LRelevancia *Lista){
   int ni = 0;
   float d, f, relev;
   Ni(arvore, idDoc, &ni);
-  f = OcorrenciadeChaveemI(arvore, *Chave, idDoc );
+  f = OcorrenciadeChaveemI(arvore, Chave, idDoc );
   d = DocumentoscomChave(arvore, Chave);
-  relev = Relevancia( nArquivos, float d, float f, q, int ni);
-  InserirNovoRelevancia(Lista, relev, nome);
+  relev = Relevancia( nArquivos, d, f, q, ni);
+  InserirNovoRelevancia(Lista, relev, Chave);
 }
 
 void ImprimirListaRelevancia(LRelevancia Lista){
   ApRel p = NULL, aux;
-  p = Lista->pPrimeiro->pProx;
+  p = Lista.pPrimeiro->pProx;
   while(p!=NULL){
     printf("%s\n", p->nome);
     p = p->pProx;
   }
-  p = Lista->pPrimeiro->pProx;
-  Lista->pPrimeiro.pProx = NULL;
-  Lista->pUltimo = Lista->pPrimeiro;
+  p = Lista.pPrimeiro->pProx;
+  Lista.pPrimeiro->pProx = NULL;
+  Lista.pUltimo = Lista.pPrimeiro;
   while (p!=NULL) {
     aux = p;
     p=p->pProx;
