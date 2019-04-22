@@ -15,11 +15,14 @@ int main(){
   int quantidadeTextos;
   int quantidadePalavras;
   char *palavraPesquisa;
+  char *prefixo;
   char nomeArquivo[100], palavra[100];
   char *aux = NULL;
   palavraPesquisa = (char*)malloc(sizeof(char));
+  prefixo = (char*)malloc(sizeof(char));
 
   InicializaPatricia(&arvore);
+  NoTST* head = NULL;
 
   menu_de_entradas();
 
@@ -49,7 +52,7 @@ int main(){
             aux = ConverteMaiusculo(aux);
             aux = IgnoraPontuacao(aux);
             arvore = Insere(aux, &arvore, i+1);
-
+            head = InserirNoTST(aux, head);
             //Pesquisa(aux, arvore);
           }
         }
@@ -61,6 +64,7 @@ int main(){
     }
     if(opcao == 2){
       //Pesquisa(aux, arvore);
+      printf("Quantidade de arquivos: %d\n", quantidadeTextos);
       printf("Digite a quantidade de palavras a serem pesquisadas: \n");
       scanf("%d", &quantidadePalavras);
 
@@ -72,10 +76,12 @@ int main(){
       scanf("%d", &opcao);
     }
     if(opcao == 3){
+      printf("Digite o prefixo a ser pesquisado: \n");
+      scanf("%s", prefixo);
+      //printf("prefixo: %s\n", prefixo);
+      AutoComplete(head, prefixo, prefixo);
 
-      /*Ni(arvore, 1, &ni);
-      printf("%d palavras no documento 1\n", ni);
-      ni = 0;*/
+
       menu_de_entradas();
       scanf("%d", &opcao);
     }
