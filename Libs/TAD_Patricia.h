@@ -30,7 +30,7 @@ short ConfereNoExterno(Apontador arvore);
 Apontador CriaNoInt(int index, char letra, Apontador *esq, Apontador *dir);
 Apontador CriaNoExt(char *palavra, int idDoc);
 Apontador Pesquisa(char *Chave, Apontador arvore);
-Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc);
+Apontador InsereEntre(char *Chave, char comp,Apontador *arvore, int i, int idDoc);
 Apontador Insere(char *Chave, Apontador *arvore, int idDoc);
 void Ni(Apontador arvore, int arquivo, int *ni);
 int OcorrenciadeChaveemI(Apontador arvore, char* Chave, int i);

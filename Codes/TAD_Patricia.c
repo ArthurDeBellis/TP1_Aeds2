@@ -84,35 +84,51 @@ Apontador Pesquisa(char *Chave, Apontador arvore){
   }
 }
 
-Apontador InsereEntre(char *Chave, Apontador *arvore, int i, int idDoc)
-{ Apontador p;
+Apontador InsereEntre(char *Chave, char comp, Apontador *arvore, int i, int idDoc){
+  Apontador p;
   if (ConfereNoExterno(*arvore))
-  { /* cria um novo no externo */
+  { // cria um novo no externo *
     p = CriaNoExt(Chave, idDoc);
-    if (Chave[i]<(*arvore)->No.NoExterno.chave[i])
-    return (CriaNoInt(i, Chave[i], &p, arvore) );
-    else return (CriaNoInt(i, Chave[i], arvore, &p));
+    if (Chave[i]>(*arvore)->No.NoExterno.chave[i]){
+      return (CriaNoInt(i, Chave[i], arvore, &p) );
+    }
+    else{
+      return (CriaNoInt(i, (*arvore)->No.NoExterno.chave[i], &p, arvore));
+    }
   }
+
   else{
     if (i < (*arvore)->No.NoInterno.posicao) {
       p = CriaNoExt(Chave, idDoc);
-      if(Chave[(*arvore)->No.NoInterno.posicao]<(*arvore)->No.NoInterno.letra)
-      return (CriaNoInt(i, Chave[i], &p, arvore));
-      else return (CriaNoInt(i, Chave[i], arvore, &p));
+      if(Chave[i]>comp){
+        return  (CriaNoInt(i, Chave[i], arvore, &p));
+      }
+      else{
+        return  (CriaNoInt(i, comp, &p, arvore));
+      }
     }
-    else
-    { if ((*arvore)->No.NoInterno.posicao==i){
-        if((*arvore)->No.NoInterno.letra < Chave[i])
-          //return (CriaNoInt(i, Chave[i], arvore, &p));
-          (*arvore)->No.NoInterno.Dir = InsereEntre(Chave, &(*arvore)->No.NoInterno.Dir,i, idDoc);
-        else{
-          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave, &(*arvore)->No.NoInterno.Esq,i, idDoc);
-          //return (CriaNoInt(i, Chave[i], &p, arvore));
+    else{
+       if ((*arvore)->No.NoInterno.posicao==i){
+        p = CriaNoExt(Chave, idDoc);
+        if((*arvore)->No.NoInterno.letra < Chave[i]){
+          return (CriaNoInt(i, Chave[i], arvore, &p));
         }
+        else{
+          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave, comp, &(*arvore)->No.NoInterno.Esq,i, idDoc);
+          return(*arvore);
+        }
+      }
+      else{
+        if((*arvore)->No.NoInterno.letra == Chave[(*arvore)->No.NoInterno.posicao]){
+          (*arvore)->No.NoInterno.Dir = InsereEntre(Chave, comp, &(*arvore)->No.NoInterno.Dir,i, idDoc);
+        }
+        else{
+          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave, comp, &(*arvore)->No.NoInterno.Esq,i, idDoc);
+        }
+        return (*arvore);
+    }
     }
   }
-  }
-  return (*arvore);
 }
 
 Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
@@ -136,22 +152,22 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
         p = p->No.NoInterno.Dir;
     }
     //O While a seguir confere em qual posição que a chave a ser inserida e a existente se diferem em relação a letra
-    for (posicaoDiferente = 0; Chave[posicaoDiferente]; posicaoDiferente++){
+  /*  for (posicaoDiferente = 0; Chave[posicaoDiferente]; posicaoDiferente++){
       if(Chave[posicaoDiferente] != p->No.NoExterno.chave[posicaoDiferente])
         break;
     }
-    /*while(posicaoDiferente < Chave[posicaoDiferente]){
+*/    while(1){
       if(Chave[posicaoDiferente] != p->No.NoExterno.chave[posicaoDiferente]){
         break;
       }
       posicaoDiferente++;
-    }*/
+    }
 
     /*
     Se a variável 'posição diferente' for maior ou igual ao tamanho
     da chave, significa que os dois são iguais, ou seja, não deve ser
     inserido
-    */
+    */printf(" %s == %s\n", Chave, p->No.NoExterno.chave);
     if (strcmp(Chave, p->No.NoExterno.chave) == 0){
       printf("Erro: chave ja esta na arvore\n");
       InserirNovo(&(p->No.NoExterno.lista), idDoc);
@@ -159,7 +175,7 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
       return (*arvore);
     }
   //  printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
-    return (InsereEntre(Chave, arvore, posicaoDiferente, idDoc));
+    return (InsereEntre(Chave, p->No.NoInterno.letra, arvore, posicaoDiferente, idDoc));
   }
 }
 
