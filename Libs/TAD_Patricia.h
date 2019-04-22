@@ -30,7 +30,7 @@ typedef struct NoPatricia{
 
 typedef struct CelRelevancia{
   float relevancia;
-  char nome[25];
+  int idDoc;
   ApRel pProx;
 }CelRelevancia;
 
@@ -62,13 +62,13 @@ void Ni(Apontador arvore, int arquivo, int *ni);
 int OcorrenciadeChaveemI(Apontador arvore, char* Chave, int i);
 int DocumentoscomChave(Apontador arvore, char* Chave);
 float PesoTermo(float n, Apontador arvore, char *Chave, int idDoc);
-float Relevancia(float n, int q, int ni, char *Chave, Apontador arvore, LBusca *busca, int idDoc);
+float Relevancia(float n, int q, int ni, char *Chave, Apontador arvore, LBusca *busca, int narquivo);
 
 int IniciaListaRelevancia(LRelevancia *pLista);
 int ListaRelevanciaVazia(LRelevancia Lista);
-void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome);
+void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, int narquivo);
 
-void RelevanciaFinal(Apontador arvore, int q, char *Chave, LRelevancia *Lista, float n, float idDoc, LBusca *busca);
+void RelevanciaFinal(Apontador arvore, int q, char *Chave, LRelevancia *Lista, float n, float idDoc, LBusca *busca, int narquivo);
 void ImprimirListaRelevancia(LRelevancia Lista);
 int IniciaListaBusca(LBusca *pLista);
 void InserirNovoBusca(LBusca *Lista, char *nome);

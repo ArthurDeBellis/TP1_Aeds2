@@ -34,7 +34,7 @@ int ListaVazia(TLista Lista){ //Função para conferir se a lista é vazia
     return 0;
   }
 }
-void InserirNovo(TLista *Lista, int idDoc){ //Função para inserir um novo elemento na lista
+void InserirNovo(TLista *Lista, int idDoc,char *nome){ //Função para inserir um novo elemento na lista
   ApIndInverso Celula = NULL, p = NULL;
   int i = 0; //contador
   if(ListaVazia(*Lista)){
@@ -42,6 +42,8 @@ void InserirNovo(TLista *Lista, int idDoc){ //Função para inserir um novo elem
     Celula = (ApIndInverso)malloc(sizeof(TCelula));
     Celula->qtde = 1;
     Celula->idDoc = idDoc;
+    Celula->nome = (char*)malloc(sizeof(char));
+    strcpy(Celula->nome, nome);
     Celula->pProx = NULL;
     Lista->pUltimo->pProx = Celula;
     Lista->pUltimo = Celula;
@@ -57,6 +59,8 @@ void InserirNovo(TLista *Lista, int idDoc){ //Função para inserir um novo elem
       Celula = (ApIndInverso)malloc(sizeof(TCelula));
       Celula->qtde = 1;
       Celula->idDoc = idDoc;
+      Celula->nome = (char*)malloc(sizeof(char));
+      strcpy(Celula->nome, nome);
       Celula->pProx = NULL;
       p->pProx = Celula;
       Lista->pUltimo = Celula;

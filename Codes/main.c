@@ -99,8 +99,8 @@ int main(){
       fclose(arquivo2);
       for(int i = 0; i < contBusca; i++){
         //Desempilha(&pilha, auxBusca);
-    
-        RelevanciaFinal(arvore, contBusca, auxBusca, &relevancia, quantidadeTextos, i+1, &busca);
+
+        RelevanciaFinal(arvore, contBusca, auxBusca, &relevancia, quantidadeTextos, i+1, &busca, i);
         //printf("Desimpilhou: %s\n", auxBusca);
       }
       ImprimirListaRelevancia(relevancia);
@@ -118,6 +118,9 @@ int main(){
       scanf("%d", &opcao);
     }
 
+
   }
+
   return 0;
+
 }

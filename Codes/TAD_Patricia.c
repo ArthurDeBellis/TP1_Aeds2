@@ -169,7 +169,7 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
     inserido
     *///printf(" %s == %s\n", Chave, p->No.NoExterno.chave);
     if (strcmp(Chave, p->No.NoExterno.chave) == 0){
-      printf("Erro: chave ja esta na arvore\n");
+      //printf("Erro: chave ja esta na arvore\n");
       InserirNovo(&(p->No.NoExterno.lista), idDoc, Chave);
       //printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
       return (*arvore);
@@ -246,16 +246,16 @@ float PesoTermo(float n, Apontador arvore, char *Chave, int idDoc){
 
 }
 
-float Relevancia(float n, int q, int ni, char *Chave, Apontador arvore, LBusca *busca, int idDoc){
+float Relevancia(float n, int q, int ni, char *Chave, Apontador arvore, LBusca *busca, int narquivo){
     ApBus p = busca->pPrimeiro->pProx;
     float r, somatorio = 0;
 
 
     while(p!=NULL){
-      somatorio += PesoTermo(n, arvore, p->nome, idDoc);
+      somatorio = somatorio+ PesoTermo(n, arvore, p->nome, narquivo);
       p = p->pProx;
     }
-
+    //printf("%d = ni somatorio = %f\n", ni, somatorio);
     r=(1/(float)ni)*somatorio;
     //printf("%d é o Ni\n", ni);
     return r;
@@ -282,15 +282,15 @@ int ListaRelevanciaVazia(LRelevancia Lista){
   }
 }
 
-void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome){
+void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, int narquivo){
   ApRel Celula = NULL, p = NULL;
   int i = 0; //contador
   if(Lista->pPrimeiro==Lista->pUltimo){
     //Conferindo se a lista é vazia, se sim, define todos os valores
     Celula = (ApRel)malloc(sizeof(CelRelevancia));
     Celula->relevancia = relevancia;
-    strcpy(Celula->nome, nome);
     Celula->pProx = NULL;
+    Celula->idDoc = narquivo;
     Lista->pUltimo->pProx = Celula;
     Lista->pUltimo = Celula;
     return;
@@ -308,7 +308,7 @@ void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome){
 
     Celula = (ApRel)malloc(sizeof(CelRelevancia));
     Celula->relevancia = relevancia;
-    strcpy(Celula->nome, nome);
+    Celula->idDoc = narquivo;
     Celula->pProx = p->pProx;
     p->pProx = Celula;
     if(p->pProx== NULL)
@@ -320,36 +320,41 @@ void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome){
 
 }
 
-void RelevanciaFinal(Apontador arvore, int q, char *Chave, LRelevancia *Lista, float n, float idDoc, LBusca *busca){
+void RelevanciaFinal(Apontador arvore, int q, char *Chave, LRelevancia *Lista, float n, float idDoc, LBusca *busca, int narquivo){
   int ni = 0;
   float relev;
   //printf("%d = q\n", q);
-  for(int i = 1;i<=q;i++){
-    Ni(arvore, i, &ni);
+  for(int i = 0;i<q;i++){
+    Ni(arvore, i+1, &ni);
 
-    relev = Relevancia(n, q, ni, Chave, arvore, busca, i);
+    relev = Relevancia(n, q, ni, Chave, arvore, busca, i+1);
     //printf("\n%s  = chave, %f vezes no %d e %f documentos o tem", Chave, f, idDoc, d);
-    InserirNovoRelevancia(Lista, relev, Chave);
-    printf("\n%f é a relevancia e q = %d\n", relev, q );
-
+    InserirNovoRelevancia(Lista, relev, narquivo);
+    //printf("\n%.2f é a relevancia e q = %d\n", relev, q );
+    ni=0;
   }
 }
 
 void ImprimirListaRelevancia(LRelevancia Lista){
-  ApRel p = NULL, aux;
+  ApRel p , aux;
   p = Lista.pPrimeiro->pProx;
+  //printf("Aqui foi\n" );
+//
   while(p!=NULL){
-    printf("%s\n", p->nome);
+    printf("%dºarquivo\n", p->idDoc+1);
+
     p = p->pProx;
   }
+  //printf("Aqui foi\n" );
   p = Lista.pPrimeiro->pProx;
   Lista.pPrimeiro->pProx = NULL;
   Lista.pUltimo = Lista.pPrimeiro;
-  while (p!=NULL) {
+/*  while (p!=NULL) {
     aux = p;
     p=p->pProx;
     free(p);
   }
+*/
 }
 
 int IniciaListaBusca(LBusca *pLista){

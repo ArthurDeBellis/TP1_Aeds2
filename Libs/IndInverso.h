@@ -13,7 +13,8 @@ Pablo Ferreira - 03480
 
 typedef struct TCelula *ApIndInverso; //Criação de um Apontador da lista do Indice Inverso
 
-typedef struct TCelula{ //Struct da celula da pilha
+typedef struct TCelula{
+  char *nome; //Struct da celula da pilha
   int qtde;
   int idDoc;
   ApIndInverso pProx;
@@ -27,7 +28,7 @@ typedef struct{ //Struct da Pilha
 //Funções
 int IniciaLista(TLista *pLista); // Função para criar a lista vazia
 int ListaVazia(TLista Lista); //Função para conferir se a lista é vazia
-void InserirNovo(TLista *Lista, int idDoc); //Função para inserir um novo elemento na lista
+void InserirNovo(TLista *Lista, int idDoc, char *nome); //Função para inserir um novo elemento na lista
 void ImprimirLista(TLista Lista); //Função para imprimir lista
 
 #endif
