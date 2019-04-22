@@ -1,10 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <malloc.h>
+/*
+
+Trabalho feito por:
+
+Arthur De Bellis - 03503
+Saulo Miranda Silva - 03475
+Pablo Ferreira - 03480
+
+*/
+
 #include "../Libs/tst.h"
 
-NoTST* CriarNoTST (char letra, ntipo t)
+NoTST* CriarNoTST (char letra, ntipo t) //Realizando a criação do nó
 {
   NoTST *NoTST = (struct NoTST*)malloc(sizeof(struct NoTST));
   NoTST->letra = letra;
@@ -16,7 +22,7 @@ NoTST* CriarNoTST (char letra, ntipo t)
   return NoTST;
 }
 
-NoTST* InserirNoTST (const char* palavra, NoTST* NoTST)
+NoTST* InserirNoTST (const char* palavra, NoTST* NoTST)//Realizando a inserção
 {
   int i = strlen(palavra);
 
@@ -41,7 +47,7 @@ NoTST* InserirNoTST (const char* palavra, NoTST* NoTST)
   return NoTST;
 }
 
-int BuscarNoTST(NoTST *arvore, const char* palavra)
+int BuscarNoTST(NoTST *arvore, const char* palavra)//Buscando um nó
 {
   long unsigned int i = 0;
   NoTST* NoTST = arvore;
@@ -66,6 +72,14 @@ int BuscarNoTST(NoTST *arvore, const char* palavra)
 }
 
 int OrdemAux(NoTST *arvore, char *recebePalavra, int i, char* pref){
+  /*
+    Nesta função, se a árvore não for nula, é feita a chamada recursiva para a
+    esquerda, enquanto a variável 'recebePalavra' vai sendo preenchida com as
+    chaves da arvore TST.
+    Se a árvore chegar ao seu fim, é feito o printf do prefixo + o resto da palavra
+    Se não, é chamada a árvore pelo meio, com a variável i incrementada, logo depois
+    chama a função recursivamente para a direita
+  */
   if(arvore != NULL){
     OrdemAux(arvore->Esq, recebePalavra, i, pref);
     recebePalavra[i] = arvore->letra;
@@ -81,31 +95,40 @@ int OrdemAux(NoTST *arvore, char *recebePalavra, int i, char* pref){
 }
 
 void Ordem(NoTST *arvore, char* pref){
+  /*
+  Função principal que chama a função OrdemAux
+  */
   char *recebePalavra = NULL;
   recebePalavra = (char*)malloc(sizeof(char));
   OrdemAux(arvore, recebePalavra,0, pref);
 }
 
 void AutoComplete(NoTST *arvore, char *pref, char* aux){
-  if(arvore == NULL){
-    return;
-  }
-
-  if(*pref < arvore->letra){
-    AutoComplete(arvore->Esq, pref, aux);
-    return;
-  }
-  else{
-    if(*pref > arvore->letra){
-      AutoComplete(arvore->Dir, pref, aux);
+  /*
+  Na função, é comparado o prefixo com a chave presente na árvore, seu valor define
+  o desvio, se o prefixo for igual ao campo 'letra', é feita a conferencia se o próximo
+  elemento do prefixo é igual a '\0', se for, é chamada a função de ordem com o campo aux,
+  que tem como valor o próprio prefixo, se não, é chamada a função no meio com o prefixo
+  incrementado
+  */
+  if(arvore != NULL){
+    if(*pref < arvore->letra){
+      AutoComplete(arvore->Esq, pref, aux);
       return;
     }
     else{
-      if(*(pref+1) == '\0'){
-        Ordem(arvore->Meio, aux);
+      if(*pref > arvore->letra){
+        AutoComplete(arvore->Dir, pref, aux);
+        return;
       }
-      AutoComplete(arvore->Meio, pref+1, aux);
-      return;
+      else{
+        if(*(pref+1) == '\0'){
+          Ordem(arvore->Meio, aux);
+        }
+        AutoComplete(arvore->Meio, pref+1, aux);
+        return;
+      }
     }
   }
+  return;
 }

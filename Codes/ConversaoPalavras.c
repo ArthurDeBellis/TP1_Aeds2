@@ -1,3 +1,13 @@
+/*
+
+Trabalho feito por:
+
+Arthur De Bellis - 03503
+Saulo Miranda Silva - 03475
+Pablo Ferreira - 03480
+
+*/
+
 #include "../Libs/ConversaoPalavras.h"
 
 char* ConverteMaiusculo(char *palavra){

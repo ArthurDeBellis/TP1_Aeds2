@@ -1,33 +1,34 @@
+/*
+
+Trabalho feito por:
+
+Arthur De Bellis - 03503
+Saulo Miranda Silva - 03475
+Pablo Ferreira - 03480
+
+*/
+
 #ifndef LISTABUSCA_H
 #define LISTABUSCA_H
 
-typedef struct TCelulaPilha *ApontadorPilha;
+typedef struct TCelulaPilha *ApontadorPilha; //Criação de um ApontadorPilha
 
-typedef struct TCelulaPilha{
+typedef struct TCelulaPilha{ //Struct da celula da pilha
   char *chaveBusca;
   ApontadorPilha pProx;
 }TCelulaPilha;
 
-typedef struct{
+typedef struct{ //Struct da Pilha
   ApontadorPilha pFundo;
   ApontadorPilha pTopo;
   int Tamanho;
 }TipoPilha;
 
 //Funções
-void FPVazia(TipoPilha *Pilha);
-int Vazia(TipoPilha Pilha);
-void Empilha(char *chave, TipoPilha *Pilha);
-void Desempilha(TipoPilha *Pilha, char *chave);
-int Tamanho(TipoPilha Pilha);
-
-/*int IniciaLista(TLista *pLista);
-int ListaVazia(TLista Lista);
-void InserirNovo(TLista *Lista, int idDoc);
-//void InserirUltimo(TLista *Lista, int qtde, int idDoc);
-//ApIndInverso ProcurarLista (TLista *pLista, int Id);
-
-void ImprimirLista(TLista Lista);
-*/
+void FPVazia(TipoPilha *Pilha); //Função para criar uma pilha vazia
+int Vazia(TipoPilha Pilha); //Função para conferir se a pilha é vazia
+void Empilha(char *chave, TipoPilha *Pilha); //Função para empilhar a palavra
+void Desempilha(TipoPilha *Pilha, char *chave); //Função para desempilhar a palavra
+int Tamanho(TipoPilha Pilha); //Função para saber o tamanho da pilha
 
 #endif
