@@ -8,6 +8,8 @@ typedef enum{
 
 typedef struct NoPatricia *Apontador;
 
+typedef struct CelRelevancia *ApRel;
+
 typedef struct NoPatricia{
   TipoNo noArvore;
   /*union que contém as structs dos nós internos e externos*/
@@ -24,6 +26,17 @@ typedef struct NoPatricia{
     }No;
 }NoPatricia;
 
+typedef struct{
+  float relevancia;
+  char nome[25];
+  ApRel pProx;
+}CelRelevancia;
+
+typedef struct{
+  ApRel pPrimeiro;
+  ApRel pUltimo;
+}LRelevancia;
+
 //Funções implementadas
 void InicializaPatricia(Apontador *arvore);
 short ConfereNoExterno(Apontador arvore);
@@ -37,4 +50,11 @@ int OcorrenciadeChaveemI(Apontador arvore, char* Chave, int i);
 int DocumentoscomChave(Apontador arvore, char* Chave);
 float PesoTermo(float n, float d, float f);
 float Relevancia(float n, float d, float f, int q, int ni);
+
+int IniciaListaRelevancia(TLista *pLista);
+int ListaRelevanciaVazia(TLista Lista);
+void InserirNovoRelevancia(TLista *Lista, int idDoc, char *nome);
+
+void RelevanciaFinal(Apontador arvore, int q, char *Chave, int idDoc, float nArquivos, LRelevancia *Lista);
+
 #endif
