@@ -10,6 +10,8 @@ typedef struct NoPatricia *Apontador;
 
 typedef struct CelRelevancia *ApRel;
 
+typedef struct Celbusca *ApBus;
+
 typedef struct NoPatricia{
   TipoNo noArvore;
   /*union que contém as structs dos nós internos e externos*/
@@ -37,6 +39,17 @@ typedef struct{
   ApRel pUltimo;
 }LRelevancia;
 
+typedef struct Celbusca{
+  char *nome;
+  ApBus pProx;
+}Celbusca;
+
+typedef struct{
+  ApBus pPrimeiro;
+  ApBus pUltimo;
+}LBusca;
+
+
 //Funções implementadas
 void InicializaPatricia(Apontador *arvore);
 short ConfereNoExterno(Apontador arvore);
@@ -48,13 +61,15 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc);
 void Ni(Apontador arvore, int arquivo, int *ni);
 int OcorrenciadeChaveemI(Apontador arvore, char* Chave, int i);
 int DocumentoscomChave(Apontador arvore, char* Chave);
-float PesoTermo(float n, float d, float f);
-float Relevancia(float n, float d, float f, int q, int ni);
+float PesoTermo(float n, Apontador arvore, char *Chave, int idDoc);
+float Relevancia(float n, int q, int ni, char *Chave, Apontador arvore, LBusca *busca, int idDoc);
 
 int IniciaListaRelevancia(LRelevancia *pLista);
 int ListaRelevanciaVazia(LRelevancia Lista);
 void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome);
 
-void RelevanciaFinal(Apontador arvore, int q, char *Chave, int idDoc, float nArquivos, LRelevancia *Lista);
+void RelevanciaFinal(Apontador arvore, int q, char *Chave, LRelevancia *Lista, float n, float idDoc, LBusca *busca);
 void ImprimirListaRelevancia(LRelevancia Lista);
+int IniciaListaBusca(LBusca *pLista);
+void InserirNovoBusca(LBusca *Lista, char *nome);
 #endif

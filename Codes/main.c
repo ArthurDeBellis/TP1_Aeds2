@@ -15,13 +15,15 @@ int main(){
   Apontador arvore;
   TipoPilha pilha;
   FPVazia(&pilha);
+  LBusca busca;
+  IniciaListaBusca(&busca);
   LRelevancia relevancia;
   NoTST* head = NULL;
   InicializaPatricia(&arvore);
   IniciaListaRelevancia(&relevancia);
 
   int opcao;
-  int contBusca;
+  int contBusca=0;
   int quantidadeTextos;
   int quantidadePalavras;
   char *palavraPesquisa;
@@ -87,16 +89,19 @@ int main(){
         auxBusca = palavraBusca;
         auxBusca = ConverteMaiusculo(auxBusca);
         auxBusca = IgnoraPontuacao(auxBusca);
-        Empilha(auxBusca, &pilha);
-        
-        contBusca = Tamanho(pilha);
+
+        InserirNovoBusca(&busca, auxBusca);
+
+
+        contBusca++;
 
       }
       fclose(arquivo2);
       for(int i = 0; i < contBusca; i++){
-        Desempilha(&pilha, auxBusca);
-        RelevanciaFinal(arvore, contBusca, auxBusca, i, quantidadeTextos, &relevancia);
-        printf("Desimpilhou: %s\n", auxBusca);
+        //Desempilha(&pilha, auxBusca);
+    
+        RelevanciaFinal(arvore, contBusca, auxBusca, &relevancia, quantidadeTextos, i+1, &busca);
+        //printf("Desimpilhou: %s\n", auxBusca);
       }
       ImprimirListaRelevancia(relevancia);
       menu_de_entradas();

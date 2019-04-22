@@ -42,7 +42,7 @@ Apontador CriaNoExt(char *palavra, int idDoc){
   arvore->No.NoExterno.chave = (char*)malloc(sizeof(char));
   IniciaLista(&(arvore->No.NoExterno.lista));
   //printf("Aqui foi tbm\n" );
-  InserirNovo(&(arvore->No.NoExterno.lista), idDoc);
+  InserirNovo(&(arvore->No.NoExterno.lista), idDoc, palavra);
   arvore->noArvore = Externo;
   //printf("Aqui foi\n" );
   strcpy(arvore->No.NoExterno.chave, palavra);
@@ -62,12 +62,12 @@ Apontador Pesquisa(char *Chave, Apontador arvore){
     */
     if (strcmp(Chave, arvore->No.NoExterno.chave) == 0){
 
-      printf("\nElemento encontrado: %s\n", arvore->No.NoExterno.chave);
+      //printf("\nElemento encontrado: %s\n", arvore->No.NoExterno.chave);
       //ImprimirLista(arvore->No.NoExterno.lista);
       return arvore;
     }
     else{
-      printf("Elemento nao encontrado\n");
+      //printf("Elemento nao encontrado\n");
       return NULL;
     }
   }
@@ -167,10 +167,10 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
     Se a variável 'posição diferente' for maior ou igual ao tamanho
     da chave, significa que os dois são iguais, ou seja, não deve ser
     inserido
-    */printf(" %s == %s\n", Chave, p->No.NoExterno.chave);
+    *///printf(" %s == %s\n", Chave, p->No.NoExterno.chave);
     if (strcmp(Chave, p->No.NoExterno.chave) == 0){
       printf("Erro: chave ja esta na arvore\n");
-      InserirNovo(&(p->No.NoExterno.lista), idDoc);
+      InserirNovo(&(p->No.NoExterno.lista), idDoc, Chave);
       //printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
       return (*arvore);
     }
@@ -183,7 +183,7 @@ void Ni(Apontador arvore, int arquivo, int* ni){
   ApIndInverso p = NULL;
   if(arvore->noArvore == Externo){
     p = arvore->No.NoExterno.lista.pPrimeiro;
-    printf("%s\n", arvore->No.NoExterno.chave);
+    //printf("%s\n", arvore->No.NoExterno.chave);
     while(p!=NULL){
       if(arquivo == p->idDoc){
         *ni= *ni+1;
@@ -233,22 +233,31 @@ int DocumentoscomChave(Apontador arvore, char* Chave){
   return i;
 }
 
-float PesoTermo(float n, float d, float f){
-  float log2 = log10f(n)/log10(2);
-  printf("%f ocorrencias\n", f);
+float PesoTermo(float n, Apontador arvore, char *Chave, int idDoc){
+  float log2 = log10f(n)/log10f(2), f, d;
 
-    printf("%f log\n", log2);
+  f = OcorrenciadeChaveemI(arvore, Chave, idDoc);
+  d = DocumentoscomChave(arvore, Chave);
+  //printf("%f ocorrencias\n", f);
+  //printf("\nChave %s aparece %f vezes no documento %d e %f documentos o contem\n", Chave, f, idDoc, d);
+    //printf("%f log\n", log2);
+    //printf("%f é o peso\n", (f*(log2/d)));
   return(f*(log2/d));
 
 }
-float Relevancia(float n, float d, float f, int q, int ni){
-    float r, somatorio = 0;
-    int j;
 
-    for (j=1; j <= q; j++) {
-      somatorio += PesoTermo(n, d, f);
+float Relevancia(float n, int q, int ni, char *Chave, Apontador arvore, LBusca *busca, int idDoc){
+    ApBus p = busca->pPrimeiro->pProx;
+    float r, somatorio = 0;
+
+
+    while(p!=NULL){
+      somatorio += PesoTermo(n, arvore, p->nome, idDoc);
+      p = p->pProx;
     }
-    r=(1/ni)*somatorio;
+
+    r=(1/(float)ni)*somatorio;
+    //printf("%d é o Ni\n", ni);
     return r;
 }
 
@@ -272,6 +281,7 @@ int ListaRelevanciaVazia(LRelevancia Lista){
     return 0;
   }
 }
+
 void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome){
   ApRel Celula = NULL, p = NULL;
   int i = 0; //contador
@@ -310,14 +320,19 @@ void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, char *nome){
 
 }
 
-void RelevanciaFinal(Apontador arvore, int q, char *Chave, int idDoc, float nArquivos, LRelevancia *Lista){
+void RelevanciaFinal(Apontador arvore, int q, char *Chave, LRelevancia *Lista, float n, float idDoc, LBusca *busca){
   int ni = 0;
-  float d, f, relev;
-  Ni(arvore, idDoc, &ni);
-  f = OcorrenciadeChaveemI(arvore, Chave, idDoc );
-  d = DocumentoscomChave(arvore, Chave);
-  relev = Relevancia( nArquivos, d, f, q, ni);
-  InserirNovoRelevancia(Lista, relev, Chave);
+  float relev;
+  //printf("%d = q\n", q);
+  for(int i = 1;i<=q;i++){
+    Ni(arvore, i, &ni);
+
+    relev = Relevancia(n, q, ni, Chave, arvore, busca, i);
+    //printf("\n%s  = chave, %f vezes no %d e %f documentos o tem", Chave, f, idDoc, d);
+    InserirNovoRelevancia(Lista, relev, Chave);
+    printf("\n%f é a relevancia e q = %d\n", relev, q );
+
+  }
 }
 
 void ImprimirListaRelevancia(LRelevancia Lista){
@@ -335,4 +350,39 @@ void ImprimirListaRelevancia(LRelevancia Lista){
     p=p->pProx;
     free(p);
   }
+}
+
+int IniciaListaBusca(LBusca *pLista){
+  ApBus Celula = NULL;
+  //Definindo os valor de pPrimeiro e pUltimo como nulos para iniciar a lista
+  Celula = (ApBus)malloc(sizeof(Celbusca));
+  Celula->pProx = NULL;
+  pLista->pPrimeiro = Celula;
+  pLista->pUltimo = Celula;
+  return 1;
+
+}
+
+int ListaBuscaVazia(LBusca Lista){
+  if(Lista.pPrimeiro == Lista.pUltimo){
+    return 1;
+  }
+  else{
+    return 0;
+  }
+
+}
+
+void InserirNovoBusca(LBusca *Lista, char *nome){
+  ApBus Celula = NULL; //contador
+  //printf("\n%f é a relevancia\n", relevancia );
+    //Conferindo se a lista é vazia, se sim, define todos os valores
+    Celula = (ApBus)malloc(sizeof(Celbusca));
+    Celula->nome = (char*)malloc(sizeof(char));
+    strcpy(Celula->nome, nome);
+    Lista->pUltimo->pProx = Celula;
+    Lista->pUltimo = Celula;
+    Celula->pProx=NULL;
+    return;
+
 }
