@@ -11,10 +11,11 @@ void menu_de_entradas(){
 
   printf("\n");
 
-  printf("  1. Construir a Árvore.\n");
-  printf("  2. Buscar na Árvore.\n");
-  printf("  0. Desejo sair.\n");
-  
+  printf("1) Construir o índice invertido\n");
+  printf("2) Imprimir o índice invertido\n");
+  printf("3) Buscar palavra\n");
+  printf("4) Sair\n");
+
   printf("\n");
 
   printf("====================================================================\n");
