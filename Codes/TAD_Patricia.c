@@ -1,3 +1,13 @@
+/*
+
+Trabalho feito por:
+
+Arthur De Bellis - 03503
+Saulo Miranda Silva - 03475
+Pablo Ferreira - 03480
+
+*/
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -86,7 +96,7 @@ Apontador InsereEntre(char *Chave, char comp, Apontador *arvore, int i, int idDo
     }
       return (CriaNoInt(i, (*arvore)->No.NoExterno.chave[i], &p, arvore));
     }
-  }
+
 
   else{
     if (i < (*arvore)->No.NoInterno.posicao) {//se a posição do caractere a ser comparado for maior do que a passada pela função inser
@@ -168,6 +178,7 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
 void Ni(Apontador arvore, int arquivo, int* ni){//da um ordem e conta quantos nos externos a arvore tem
   ApIndInverso p = NULL;
   if(arvore->noArvore == Externo){
+    printf("%s\n", arvore->No.NoExterno.chave);
     p = arvore->No.NoExterno.lista.pPrimeiro;
     while(p!=NULL){
       if(arquivo == p->idDoc){
@@ -314,7 +325,7 @@ void RelevanciaFinal(Apontador arvore, int q, char *Chave, LRelevancia *Lista, f
 
     relev = Relevancia(n, q, ni, Chave, arvore, busca, i+1);
     InserirNovoRelevancia(Lista, relev, narquivo);
-
+    printf("\n%.2f é a relevancia\n", relev);
     ni=0;
   }
 }
