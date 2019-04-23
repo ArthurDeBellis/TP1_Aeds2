@@ -7,14 +7,12 @@
 #include "../Libs/tst.h"
 #include "../Libs/menu.h"
 #include "../Libs/ConversaoPalavras.h"
-#include "../Libs/listaBusca.h"
 
 int ni = 0;
 
 int main(){
+  //Inicialização de estruturas necessarias
   Apontador arvore;
-  TipoPilha pilha;
-  FPVazia(&pilha);
   LBusca busca;
   IniciaListaBusca(&busca);
   LRelevancia relevancia;
@@ -22,6 +20,7 @@ int main(){
   InicializaPatricia(&arvore);
   IniciaListaRelevancia(&relevancia);
 
+  //Variaveis utilizadas para criação do programa
   int opcao;
   int contBusca=0;
   int quantidadeTextos;
@@ -40,13 +39,13 @@ int main(){
   scanf("%d", &opcao);
 
   while(opcao != 4){
-    if(opcao == 1){
+    if(opcao == 1){ //Criação do indice invertido
       FILE *arquivo;
 
       printf("Digite a quantidade de arquivos a serem lidos: ");
       scanf("%d", &quantidadeTextos);
 
-      for(int i = 0; i < quantidadeTextos; i++){
+      for(int i = 0; i < quantidadeTextos; i++){ // lendo todos os arquivos
         printf("Nome do Arquivo (com extensão .txt): ");
         scanf("%s", nomeArquivo);
         printf("\n\n%s\n\n", nomeArquivo);
@@ -57,23 +56,22 @@ int main(){
         }
 
         else {
-          while(feof(arquivo) != 1){
+          while(feof(arquivo) != 1){ // lendo todas as palavras até terminar
             fscanf(arquivo, "%s ", palavra);
             aux =  palavra;
             aux = ConverteMaiusculo(aux);
             aux = IgnoraPontuacao(aux);
             arvore = Insere(aux, &arvore, i+1);
             head = InserirNoTST(aux, head);
-            //Pesquisa(aux, arvore);
+
           }
         }
       }
       fclose(arquivo);
-      //ImprimirLista();
       menu_de_entradas();
       scanf("%d", &opcao);
     }
-    if(opcao == 2){
+    if(opcao == 2){ //Busca do indice invertido
 
       FILE *arquivo2;
       printf("Nome do Arquivo de Busca (com extensão .txt): ");
@@ -83,44 +81,35 @@ int main(){
       if(!arquivo2){
         printf("Fim da Leitura");
       }
-      while(feof(arquivo2) != 1){
+      while(feof(arquivo2) != 1){ //lendo o arquivo de busca
 
         fscanf(arquivo2, "%s ", palavraBusca);
         auxBusca = palavraBusca;
         auxBusca = ConverteMaiusculo(auxBusca);
         auxBusca = IgnoraPontuacao(auxBusca);
-
         InserirNovoBusca(&busca, auxBusca);
-
 
         contBusca++;
 
       }
       fclose(arquivo2);
-      for(int i = 0; i < contBusca; i++){
-        //Desempilha(&pilha, auxBusca);
-
+      for(int i = 0; i < quantidadeTextos; i++){
         RelevanciaFinal(arvore, contBusca, auxBusca, &relevancia, quantidadeTextos, i+1, &busca, i);
-        //printf("Desimpilhou: %s\n", auxBusca);
       }
       ImprimirListaRelevancia(relevancia);
       menu_de_entradas();
       scanf("%d", &opcao);
     }
-    if(opcao == 3){
+    if(opcao == 3){ //Auto Completar palavras
       printf("Digite o prefixo a ser pesquisado: \n");
       scanf("%s", prefixo);
-      //printf("prefixo: %s\n", prefixo);
       AutoComplete(head, prefixo, prefixo);
-
 
       menu_de_entradas();
       scanf("%d", &opcao);
     }
-
-
   }
-
+  menu_de_saida();
   return 0;
 
 }

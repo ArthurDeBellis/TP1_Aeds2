@@ -41,13 +41,9 @@ Apontador CriaNoExt(char *palavra, int idDoc){
   arvore = (Apontador)malloc(sizeof(NoPatricia));
   arvore->No.NoExterno.chave = (char*)malloc(sizeof(char));
   IniciaLista(&(arvore->No.NoExterno.lista));
-  //printf("Aqui foi tbm\n" );
   InserirNovo(&(arvore->No.NoExterno.lista), idDoc, palavra);
   arvore->noArvore = Externo;
-  //printf("Aqui foi\n" );
   strcpy(arvore->No.NoExterno.chave, palavra);
-  //printf("%s\n", arvore -> No. NoExterno.chave);
-  //printf("Aqui foi\n" );
   return arvore;
 }
 
@@ -61,13 +57,9 @@ Apontador Pesquisa(char *Chave, Apontador arvore){
     que o elemento foi encontrado
     */
     if (strcmp(Chave, arvore->No.NoExterno.chave) == 0){
-
-      //printf("\nElemento encontrado: %s\n", arvore->No.NoExterno.chave);
-      //ImprimirLista(arvore->No.NoExterno.lista);
       return arvore;
     }
     else{
-      //printf("Elemento nao encontrado\n");
       return NULL;
     }
   }
@@ -152,11 +144,9 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
         p = p->No.NoInterno.Dir;
     }
     //O While a seguir confere em qual posição que a chave a ser inserida e a existente se diferem em relação a letra
-  /*  for (posicaoDiferente = 0; Chave[posicaoDiferente]; posicaoDiferente++){
-      if(Chave[posicaoDiferente] != p->No.NoExterno.chave[posicaoDiferente])
-        break;
+
     }
-*/    while(1){
+    while(1){
       if(Chave[posicaoDiferente] != p->No.NoExterno.chave[posicaoDiferente]){
         break;
       }
@@ -167,23 +157,20 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
     Se a variável 'posição diferente' for maior ou igual ao tamanho
     da chave, significa que os dois são iguais, ou seja, não deve ser
     inserido
-    *///printf(" %s == %s\n", Chave, p->No.NoExterno.chave);
+    */
     if (strcmp(Chave, p->No.NoExterno.chave) == 0){
-      //printf("Erro: chave ja esta na arvore\n");
       InserirNovo(&(p->No.NoExterno.lista), idDoc, Chave);
-      //printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
       return (*arvore);
     }
-  //  printf("POSIÇÃO DIFERENTE = %d\n",posicaoDiferente);
     return (InsereEntre(Chave, p->No.NoInterno.letra, arvore, posicaoDiferente, idDoc));
   }
-}
+
 
 void Ni(Apontador arvore, int arquivo, int* ni){
   ApIndInverso p = NULL;
   if(arvore->noArvore == Externo){
+    //printf("%s\n",arvore->No.NoExterno.chave);
     p = arvore->No.NoExterno.lista.pPrimeiro;
-    //printf("%s\n", arvore->No.NoExterno.chave);
     while(p!=NULL){
       if(arquivo == p->idDoc){
         *ni= *ni+1;
@@ -238,10 +225,6 @@ float PesoTermo(float n, Apontador arvore, char *Chave, int idDoc){
 
   f = OcorrenciadeChaveemI(arvore, Chave, idDoc);
   d = DocumentoscomChave(arvore, Chave);
-  //printf("%f ocorrencias\n", f);
-  //printf("\nChave %s aparece %f vezes no documento %d e %f documentos o contem\n", Chave, f, idDoc, d);
-    //printf("%f log\n", log2);
-    //printf("%f é o peso\n", (f*(log2/d)));
   return(f*(log2/d));
 
 }
@@ -255,8 +238,14 @@ float Relevancia(float n, int q, int ni, char *Chave, Apontador arvore, LBusca *
       somatorio = somatorio+ PesoTermo(n, arvore, p->nome, narquivo);
       p = p->pProx;
     }
-    //printf("%d = ni somatorio = %f\n", ni, somatorio);
-    r=(1/(float)ni)*somatorio;
+    printf("%d = ni somatorio = %f\n", ni, somatorio);
+    if(ni == 0)
+    {
+      r = 0;
+    }
+    else{
+      r=(1/(float)ni)*somatorio;
+    }
     //printf("%d é o Ni\n", ni);
     return r;
 }
@@ -330,7 +319,7 @@ void RelevanciaFinal(Apontador arvore, int q, char *Chave, LRelevancia *Lista, f
     relev = Relevancia(n, q, ni, Chave, arvore, busca, i+1);
     //printf("\n%s  = chave, %f vezes no %d e %f documentos o tem", Chave, f, idDoc, d);
     InserirNovoRelevancia(Lista, relev, narquivo);
-    //printf("\n%.2f é a relevancia e q = %d\n", relev, q );
+    printf("\n%.2f é a relevancia e q = %d\n", relev, q );
     ni=0;
   }
 }
