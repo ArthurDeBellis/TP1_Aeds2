@@ -4,7 +4,7 @@
 #include <string.h>
 #include <malloc.h>
 #include "../Libs/TAD_Patricia.h"
-
+//criamos listas encadeadas para armazenar a relevancia e os termos de busca
 
 void InicializaPatricia(Apontador *arvore){
   //Inicializa a árvore
@@ -81,41 +81,40 @@ Apontador InsereEntre(char *Chave, char comp, Apontador *arvore, int i, int idDo
   if (ConfereNoExterno(*arvore))
   { // cria um novo no externo *
     p = CriaNoExt(Chave, idDoc);
-    if (Chave[i]>(*arvore)->No.NoExterno.chave[i]){
-      return (CriaNoInt(i, Chave[i], arvore, &p) );
+    if (Chave[i]>(*arvore)->No.NoExterno.chave[i]){//se o caractere comparado da chave com o do no for maior
+      return (CriaNoInt(i, Chave[i], arvore, &p) );//ele vai para a direita, senão vai para a esquerda, e o no encontrado vai para o outro lado
     }
-    else{
       return (CriaNoInt(i, (*arvore)->No.NoExterno.chave[i], &p, arvore));
     }
   }
 
   else{
-    if (i < (*arvore)->No.NoInterno.posicao) {
+    if (i < (*arvore)->No.NoInterno.posicao) {//se a posição do caractere a ser comparado for maior do que a passada pela função inser
       p = CriaNoExt(Chave, idDoc);
       if(Chave[i]>comp){
-        return  (CriaNoInt(i, Chave[i], arvore, &p));
+        return  (CriaNoInt(i, Chave[i], arvore, &p)); //chave vai para a direita
       }
       else{
-        return  (CriaNoInt(i, comp, &p, arvore));
+        return  (CriaNoInt(i, comp, &p, arvore));//chave vai para a esquerda
       }
     }
     else{
-       if ((*arvore)->No.NoInterno.posicao==i){
+       if ((*arvore)->No.NoInterno.posicao==i){//se a posição a ser comparada for igual a do no
         p = CriaNoExt(Chave, idDoc);
         if((*arvore)->No.NoInterno.letra < Chave[i]){
-          return (CriaNoInt(i, Chave[i], arvore, &p));
+          return (CriaNoInt(i, Chave[i], arvore, &p));//se caractere da chave for maior, chave vai para a direita
         }
         else{
-          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave, comp, &(*arvore)->No.NoInterno.Esq,i, idDoc);
+          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave, comp, &(*arvore)->No.NoInterno.Esq,i, idDoc);//chama insere entre para a esquerda
           return(*arvore);
         }
       }
       else{
-        if((*arvore)->No.NoInterno.letra == Chave[(*arvore)->No.NoInterno.posicao]){
-          (*arvore)->No.NoInterno.Dir = InsereEntre(Chave, comp, &(*arvore)->No.NoInterno.Dir,i, idDoc);
+        if((*arvore)->No.NoInterno.letra == Chave[(*arvore)->No.NoInterno.posicao]){//se a letra do no for igual a da chave
+          (*arvore)->No.NoInterno.Dir = InsereEntre(Chave, comp, &(*arvore)->No.NoInterno.Dir,i, idDoc);//chama essa função para a direita
         }
         else{
-          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave, comp, &(*arvore)->No.NoInterno.Esq,i, idDoc);
+          (*arvore)->No.NoInterno.Esq = InsereEntre(Chave, comp, &(*arvore)->No.NoInterno.Esq,i, idDoc);//chama essa função para a esquerda
         }
         return (*arvore);
     }
@@ -166,10 +165,9 @@ Apontador Insere(char *Chave, Apontador *arvore, int idDoc){
   }
 
 
-void Ni(Apontador arvore, int arquivo, int* ni){
+void Ni(Apontador arvore, int arquivo, int* ni){//da um ordem e conta quantos nos externos a arvore tem
   ApIndInverso p = NULL;
   if(arvore->noArvore == Externo){
-    //printf("%s\n",arvore->No.NoExterno.chave);
     p = arvore->No.NoExterno.lista.pPrimeiro;
     while(p!=NULL){
       if(arquivo == p->idDoc){
@@ -186,7 +184,7 @@ void Ni(Apontador arvore, int arquivo, int* ni){
 }
 
 int OcorrenciadeChaveemI(Apontador arvore, char *Chave, int i){
-  //Variável para receber o tamanho da chave
+  //pesquisa quantas vezes a palavra chave aparece no documento i
   ApIndInverso p = NULL;
   Apontador no = Pesquisa(Chave, arvore);
 
@@ -206,7 +204,7 @@ int OcorrenciadeChaveemI(Apontador arvore, char *Chave, int i){
 }
 
 int DocumentoscomChave(Apontador arvore, char* Chave){
-  ApIndInverso p = NULL;
+  ApIndInverso p = NULL;//Mostra quantos documentos possuem a chave
   Apontador no = Pesquisa(Chave, arvore);
   int i = 0;
 
@@ -221,7 +219,7 @@ int DocumentoscomChave(Apontador arvore, char* Chave){
 }
 
 float PesoTermo(float n, Apontador arvore, char *Chave, int idDoc){
-  float log2 = log10f(n)/log10f(2), f, d;
+  float log2 = log10f(n)/log10f(2), f, d;//w da formula
 
   f = OcorrenciadeChaveemI(arvore, Chave, idDoc);
   d = DocumentoscomChave(arvore, Chave);
@@ -231,14 +229,13 @@ float PesoTermo(float n, Apontador arvore, char *Chave, int idDoc){
 
 float Relevancia(float n, int q, int ni, char *Chave, Apontador arvore, LBusca *busca, int narquivo){
     ApBus p = busca->pPrimeiro->pProx;
-    float r, somatorio = 0;
+    float r, somatorio = 0;// finaliza a formula de relevancia
 
 
     while(p!=NULL){
       somatorio = somatorio+ PesoTermo(n, arvore, p->nome, narquivo);
       p = p->pProx;
     }
-    printf("%d = ni somatorio = %f\n", ni, somatorio);
     if(ni == 0)
     {
       r = 0;
@@ -262,7 +259,7 @@ int IniciaListaRelevancia(LRelevancia *pLista){
 }
 
 int ListaRelevanciaVazia(LRelevancia Lista){
-  //Se o ponteiro for nulo retorna 1
+  //Se a lista for vazia retorna 1
   if(Lista.pPrimeiro == Lista.pUltimo){
     return 1;
   }
@@ -272,7 +269,7 @@ int ListaRelevanciaVazia(LRelevancia Lista){
 }
 
 void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, int narquivo){
-  ApRel Celula = NULL, p = NULL;
+  ApRel Celula = NULL, p = NULL;// insere celula de maneira ordenada decrescente na lista encadeada q armazena os arquivos e as relevancias
   int i = 0; //contador
   if(Lista->pPrimeiro==Lista->pUltimo){
     //Conferindo se a lista é vazia, se sim, define todos os valores
@@ -310,42 +307,34 @@ void InserirNovoRelevancia(LRelevancia *Lista, float relevancia, int narquivo){
 }
 
 void RelevanciaFinal(Apontador arvore, int q, char *Chave, LRelevancia *Lista, float n, float idDoc, LBusca *busca, int narquivo){
-  int ni = 0;
+  int ni = 0; //insere a relevanica e o texto na lista
   float relev;
-  //printf("%d = q\n", q);
   for(int i = 0;i<q;i++){
     Ni(arvore, i+1, &ni);
 
     relev = Relevancia(n, q, ni, Chave, arvore, busca, i+1);
-    //printf("\n%s  = chave, %f vezes no %d e %f documentos o tem", Chave, f, idDoc, d);
     InserirNovoRelevancia(Lista, relev, narquivo);
-    printf("\n%.2f é a relevancia e q = %d\n", relev, q );
+
     ni=0;
   }
 }
 
-void ImprimirListaRelevancia(LRelevancia Lista){
+void ImprimirListaRelevancia(LRelevancia Lista){ //imprime os arquivos de acordo com a relevancia
   ApRel p , aux;
   p = Lista.pPrimeiro->pProx;
-  //printf("Aqui foi\n" );
-//
+
   while(p!=NULL){
     printf("%dºarquivo\n", p->idDoc+1);
 
     p = p->pProx;
   }
-  //printf("Aqui foi\n" );
+
   p = Lista.pPrimeiro->pProx;
   Lista.pPrimeiro->pProx = NULL;
   Lista.pUltimo = Lista.pPrimeiro;
-/*  while (p!=NULL) {
-    aux = p;
-    p=p->pProx;
-    free(p);
-  }
-*/
-}
 
+}
+//lista encadeada que armazena os termos de busca
 int IniciaListaBusca(LBusca *pLista){
   ApBus Celula = NULL;
   //Definindo os valor de pPrimeiro e pUltimo como nulos para iniciar a lista
@@ -368,8 +357,8 @@ int ListaBuscaVazia(LBusca Lista){
 }
 
 void InserirNovoBusca(LBusca *Lista, char *nome){
-  ApBus Celula = NULL; //contador
-  //printf("\n%f é a relevancia\n", relevancia );
+  ApBus Celula = NULL;
+
     //Conferindo se a lista é vazia, se sim, define todos os valores
     Celula = (ApBus)malloc(sizeof(Celbusca));
     Celula->nome = (char*)malloc(sizeof(char));
