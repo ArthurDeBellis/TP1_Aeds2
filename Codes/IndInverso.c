@@ -8,10 +8,6 @@ Pablo Ferreira - 03480
 
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <malloc.h>
 #include "../Libs/IndInverso.h"
 
 int IniciaLista(TLista *pLista){ // Função para criar a lista vazia

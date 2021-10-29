@@ -8,11 +8,6 @@ Pablo Ferreira - 03480
 
 */
 
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <malloc.h>
 #include "../Libs/TAD_Patricia.h"
 //criamos listas encadeadas para armazenar a relevancia e os termos de busca
 

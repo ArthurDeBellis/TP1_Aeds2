@@ -11,6 +11,8 @@ Pablo Ferreira - 03480
 #ifndef MENU_H
 #define MENU_H
 
+#include "estruturas.h"
+
 void menu_de_entradas();
 void menu_de_saida();
 
